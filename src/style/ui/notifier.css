@@ -1,0 +1,15 @@
+.n0-notifier {
+    position: absolute;
+    top: 0;
+    left: calc(50vw - 250px);
+    width: 500px;
+
+    background-color: black;
+    z-index: 999999;
+}
+
+@scope(.n0-notifier) {
+
+    
+
+}
