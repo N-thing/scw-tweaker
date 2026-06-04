@@ -162,7 +162,7 @@
     left: 0;
     width: 100%;
     height: 0vh;
-    background-color: var(--n0-color-green);
+    background-color: var(--n0-color-base);
     transition: height .12s ease-out, opacity .12s ease-out;
 }
 .n0-ef-slider-preview.current::after {
@@ -194,23 +194,29 @@ a {cursor: pointer;}
 .n0-file {
     overflow: visible !important;
 }
+    
+.n0-button.to-parent {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 4px solid white;
+    transition: opacity .12s ease-out, top .12s ease-out, background-color .08s ease-out;
+}
+.n0-file:hover .n0-button.to-parent {
+    opacity: 1;
+    top: calc(0px - 1.2rem - 8px);
+}
+
+.n0-button.download {
+    padding: .5rem;
+    margin-left: -0.7rem;
+    margin-right: 0.4rem;
+}
+.n0-button.download:hover {background-color: var(--n0-color-base-light);}
+.n0-button.download svg {width: 1rem; height: 1rem;}
 
 @scope (.n0-file) {
-
-    button {
-        padding: 0.4rem;
-        background-color: transparent;
-        margin-left: -0.7rem;
-        margin-right: 0.4rem;
-    }
-    button:hover {
-        background-color: var(--n0-color-light-green);
-    }
-    
-    button svg {
-        width: 1.2rem;
-        height: 1.2rem;
-    }
 
     a {
         padding: .4rem 0;
@@ -247,7 +253,7 @@ a {cursor: pointer;}
     }
     a:hover,
     a.n0-ef-lookup {
-        background-color: var(--n0-color-green);
+        background-color: var(--n0-color-base);
         transition: none;
     }
 
@@ -267,65 +273,23 @@ a {cursor: pointer;}
         transition: none;
     }
 
-    /* BUTTONS */
+    .n0-file:hover .n0-button.to-parent {
+        top: calc(0px - 1.2rem - 2px);
+    }
 
-    button:not(.n0-btn-to-parent) {
+    .n0-button.download {
         opacity: 0;
         position: absolute;
-        padding: 0.2rem;
         top: 8px;
         left: 8px;
-        background-color: rgba(255,255,255, 1) !important;
-        transition: top .12s ease-out, opacity .12s ease-out;
+        padding: 3px;
         z-index: 999;
+        transition: opacity .12s ease-out;
     }
-    .n0-image-wrapper:hover button:not(.n0-btn-to-parent) {
-        opacity: .75;
-    }
-    button:not(.n0-btn-to-parent):hover {
-        opacity: 1 !important;
-        background-color: var(--n0-color-green) !important;
-    }
-    
-    button svg {
-        width: .8rem;
-        height: .8rem;
-    }
+    .n0-button.download svg {width: 12px; height: 12px;}
+    .n0-file:hover .n0-button.download {opacity: .7;}
+    .n0-file:hover .n0-button.download:hover {opacity: 1;}   
 
-}
-
-.n0-btn-to-parent {
-    display: flex;
-    align-items: center;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    line-height: 1.3rem;
-    font-size: .6rem;
-    padding: 0 .6rem;
-    white-space: nowrap;
-    pointer-events: all;
-    transition: opacity .12s ease-out, top .12s ease-out, border .12s ease-out;
-    text-transform: uppercase;
-    border: 4px solid transparent;
-}
-
-.n0-file:hover .n0-btn-to-parent,
-.n0-image-wrapper:hover .n0-btn-to-parent {
-    opacity: 1;
-    top: calc(-1.3rem - 8px);
-    pointer-events: all;
-    border: 4px solid white;
-}
-.n0-image-wrapper:hover .n0-btn-to-parent {
-    top: calc(-1.3rem - 2px);
-}
-
-.n0-btn-to-parent svg {
-    width: .55rem;
-    height: .55rem;
-    fill: rgb(55, 55, 55);
-    margin-right: .3rem;
 }
 
 }

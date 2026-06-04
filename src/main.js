@@ -2,6 +2,7 @@ import './style/main.css';
 import Core from './core.js';
 import { log } from './utils.js';
 import { modules } from './configs.js';
+import Button from './classes/ui/Button.js';
 
 console.log(`
 ============================================

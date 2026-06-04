@@ -1,5 +1,12 @@
 import { getFileBlob } from "./scw";
 
+/**
+ * @param {string} type 
+ * @param {string} className 
+ * @param {HTMLElement} parent 
+ * @param {string} inner 
+ * @returns {HTMLElement}
+ */
 export function createElement(type, className, parent, inner) {
     let element = document.createElement(type);
     if(className) element.className = className;
@@ -8,6 +15,9 @@ export function createElement(type, className, parent, inner) {
     return element;
 }
 
+/**
+ * @returns {string}
+ */
 export function getCurrentTicketId() {
     let reg = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
     let uuid = window.location.href.match(reg);
@@ -15,11 +25,36 @@ export function getCurrentTicketId() {
     return null;
 }
 
+/**
+ * 
+ * @param {HTMLElement} element 
+ * @param {string} prefix
+ */
+export function removeClassByPrefix(element, prefix) {
+    const toRemove = Array.from(element.classList).filter(className => 
+        className.startsWith(prefix)
+    );
+    if (toRemove.length > 0) element.classList.remove(...toRemove);
+};
+
+/**
+ * 
+ * @param {HTMLElement} element 
+ * @param {string} prefix
+ * @param {string} value
+ */
+export function switchClassWithPrefix(element, prefix, value) {
+    removeClassByPrefix(element, prefix);
+    element.classList.add(`${prefix}${value}`);
+};
+
+
 export function log(value, type) {
     type = type || '';
     if(type != '') type = `/ ${type} `;
     console.warn(`[ SCW Tweaker ${type}]`, value);
 }
+
 
 export async function saveWithName(url, name) {
     

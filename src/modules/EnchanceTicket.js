@@ -9,6 +9,7 @@ import CommentElement from "../classes/CommentElement.js";
 import ImageSlider from "./EnchanceFiles/ImageSlider.js";
 import configs from "../configs.js";
 import icons from "../icons.js";
+import Button from "../classes/ui/Button.js";
 
 class EnchanceTicket extends Module {
     
@@ -132,14 +133,14 @@ class EnchanceTicket extends Module {
                 let a = file.a;
                 a.removeAttribute('href');
                 a.addEventListener('click', async e => {
-                    file.element.classList.add('n0-waiting');
+                    file.element.classList.add('n0-state-waiting');
                     let url = file.url;
                     let blob = await getFileBlob(file.url.replace('https://', 'https://n-thing.net/cors/'));
                     if(blob != null) {
                         const namedFile = new File([blob], file.name, { type: file.mimeType });
                         url = URL.createObjectURL(namedFile);
                     } 
-                    file.element.classList.remove('n0-waiting');
+                    file.element.classList.remove('n0-state-waiting');
                     window.open(url, "_blank");
                 });
 
@@ -161,7 +162,7 @@ class EnchanceTicket extends Module {
             imagesBlock = createElement('div', 'v-col v-col-12 n0-images', file.element.parentElement.parentElement);
         }
 
-        let imageWrapper = createElement('div', 'n0-image-wrapper', imagesBlock);
+        let imageWrapper = createElement('div', 'n0-image-wrapper n0-file', imagesBlock);
         imageWrapper.appendChild(file.a);
         file.element.remove();
         file.element = imageWrapper;
@@ -172,23 +173,31 @@ class EnchanceTicket extends Module {
     }
 
     addDownloadButton(file) {
-        let btnDownload = createElement('button', 'n0-btn n0-btn-download', null, `${icons.download}`);
-        file.element.prepend(btnDownload);
-        btnDownload.addEventListener('click', async () => {
 
-            btnDownload.classList.add('n0-waiting');
+        let name = `${icons.download}`;
+        let classNames = ['download'];
+        let action = async (e) => {
+            let button = e.currentTarget.n0class;
+            button.setState("WAITING");
             await saveWithName(file.url, file.name);
-            btnDownload.classList.remove('n0-waiting');
+            button.setState("NORMAL");
+        };
 
-        });
+        let button = new Button(name, classNames, action, {size: "MICRO"});
+        file.element.prepend(button.getElement());
     }
 
     addBackwardButton(file, ticket) {
-        let btnToParent = createElement('button', 'n0-btn-green n0-btn-to-parent', file.element, `${icons.backward} в родителя`);
-        btnToParent.addEventListener('click', () => {
+
+        let name = `${icons.backward} В РОДИТЕЛЯ`;
+        let classNames = ['to-parent'];
+        let action = () => {
             let modal = new FileToParent(ticket.parent_ticket.id, file);
             modal.open();
-        });
+        };
+
+        let button = new Button(name, classNames, action, {size: "SMALL", state: "READY"});
+        file.element.appendChild(button.getElement());
     }
 
 }

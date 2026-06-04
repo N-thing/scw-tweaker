@@ -1,23 +1,21 @@
 :root {
-    --n0-margin: 8px;
-    --n0-color-green: #a0e32b;
+    --n0-color-base: #a0e32b;
+    --n0-color-base-light: #baf455;
+    --n0-color-base-black: #334a07;
     --n0-color-red: #e03505;
     --n0-color-red-light: #fd5037;
-    --n0-color-black-green: #334a07;
-    --n0-color-light-green: #baf455;
-    --n0-color-light-gray: #e6e6e6;
-    --n0-scale: 0.666666;
+    --n0-color-gray-light: #c4c4c4;
 }
 
 body > .v-overlay-container {
     position: fixed;
 }
 
+#floatMenu {
+    top: 64px !important;
+}
+
 .v-application {
-    background-image: none !important;
     background-color: #cdcdd3 !important;
-    background-size: cover !important;
-    background-attachment: fixed !important;
-    background-position: center center !important;
 }
 .v-card--variant-elevated.ma-2 {background: rgba(255, 255, 255, .75);}
