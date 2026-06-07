@@ -56,9 +56,18 @@ class BaseModule extends Module {
         cache.spacer = document.querySelector('header.v-app-bar .v-toolbar__content .v-spacer');
         if(cache.spacer) {
 
-            let input = new InputTextAction('ЗАЯВКА', icons.arrowUp, {placeholder: true, size: "NORMAL"});
-            input.getElement().id = "n0-ticket-finder";
-            cache.spacer.after(input.getElement());
+            let input = new InputTextAction('№ ЗАЯВКИ', icons.arrowUp, {placeholder: true, size: "NORMAL"});
+            let inputElement = input.getElement();
+            inputElement.id = "n0-ticket-finder";
+            cache.spacer.after(inputElement);
+
+            inputElement.addEventListener('click', () => {
+                if(input.options.state == "ERROR") input.setState("NORMAL");
+            });
+
+            input.input.addEventListener('input', function() {
+                this.value = this.value.replace(/[^\d]/g, '');
+            });
 
             input.onAction = async () => {
 
@@ -77,7 +86,7 @@ class BaseModule extends Module {
                     await ctx.configs.setValue('ticket_cache', cache);
                     input.setState("NORMAL");
                 } else {
-                    input.setState("ERROR");
+                    input.setState("ERROR", 3);
                 }
             }
 

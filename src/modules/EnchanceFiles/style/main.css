@@ -200,10 +200,13 @@ a {cursor: pointer;}
     position: absolute;
     top: 0;
     left: 0;
-    border: 4px solid white;
-    transition: opacity .12s ease-out, top .12s ease-out, background-color .08s ease-out;
+    border: 4px solid transparent;
+    background-clip: padding-box;
+    transition: opacity .12s ease-out, top .12s ease-out, background-color .08s ease-out, border .12s ease-out;
 }
 .n0-file:hover .n0-button.to-parent {
+    border: 4px solid white;
+    border-bottom: 4px solid transparent;
     opacity: 1;
     top: calc(0px - 1.2rem - 8px);
 }
@@ -280,15 +283,18 @@ a {cursor: pointer;}
     .n0-button.download {
         opacity: 0;
         position: absolute;
-        top: 8px;
+        top: -8px;
         left: 8px;
         padding: 3px;
         margin: 0;
         z-index: 999;
-        transition: opacity .12s ease-out;
+        transition: opacity .12s ease-out, top .12s ease-out;
     }
     .n0-button.download svg {width: 12px; height: 12px;}
-    .n0-file:hover .n0-button.download {opacity: .7;}
+    .n0-file:hover .n0-button.download {
+        top: 8px;
+        opacity: .7;
+    }
     .n0-file:hover .n0-button.download:hover {opacity: 1;}   
 
 }

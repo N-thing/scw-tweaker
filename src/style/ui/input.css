@@ -108,9 +108,11 @@
         height: .8rem;
     }
 
-    :scope.n0-state-waiting .action {
+    :scope.n0-state-waiting .action,
+    :scope:has(input:placeholder-shown) .action {
         opacity: 0;
         right: -.5rem;
+        pointer-events: none;
     }
 
 }

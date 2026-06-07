@@ -99,8 +99,16 @@ class UIElement {
     /**
      * @param {ElementState} value 
      */
-    setState(value) {
+    setState(value, timer, final) {
+        clearTimeout(this.tState);
         this.options.state = value;
+        if(timer) {
+            this.tState = setTimeout(() => {
+                final = final ?? "NORMAL";
+                this.setState(final);
+            }, timer * 1000);
+        }
+
         if(!this.element) return;
         switchClassWithPrefix(this.element, 'n0-state-', value);
     }

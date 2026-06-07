@@ -13,9 +13,19 @@ function generateManifest() {
       'storage',
       'unlimitedStorage'
     ],
+    icons: {
+      "16": "logo/logo_16.png",
+      "48": "logo/logo_48.png",
+      "128": "logo/logo_128.png"
+    },
     version: '0.1.1',
     action: {
       default_popup: 'src/popup/popup.html',
+      default_icon: {
+        "16": "logo/logo_16.png",
+        "24": "logo/logo_24.png",
+        "32": "logo/logo_32.png"
+      }
     },
     content_scripts: [
       {
