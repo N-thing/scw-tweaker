@@ -45,7 +45,7 @@ export function removeClassByPrefix(element, prefix) {
  */
 export function switchClassWithPrefix(element, prefix, value) {
     removeClassByPrefix(element, prefix);
-    element.classList.add(`${prefix}${value}`);
+    if(value != null) element.classList.add(`${prefix}${value.toLowerCase()}`);
 };
 
 
@@ -53,6 +53,11 @@ export function log(value, type) {
     type = type || '';
     if(type != '') type = `/ ${type} `;
     console.warn(`[ SCW Tweaker ${type}]`, value);
+}
+
+/** @param {HTMLElement} element */
+export function resetAnimation(element) {
+    void element.offsetWidth;
 }
 
 

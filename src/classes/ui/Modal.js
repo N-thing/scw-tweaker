@@ -1,84 +1,121 @@
-import { createElement } from "../../utils.js";
+import { createElement, log, resetAnimation } from "../../utils.js";
+import UIElement from "./UIElement.js";
 
-class Modal {
+class Modal extends UIElement {
+
+    /** @param {...import("./UIElement.js").ElementOptions & { oneoff?: boolean, width?: Int32Array, height?: Int32Array}} [options] */
     constructor(options) {
-        options = options || {};
-        this.options = {
-            once: true,
-            size: "small"
-        };
-        Object.assign(this.options, options);
-        this.elements = {};
-        this.tc = null;
+        super(options);
+        this.options.oneoff = this.options.oneoff ?? true;
 
-        // background
-        this.elements.shadow = document.createElement('div');
-        this.elements.shadow.className = "n0-modal-shadow";
-        this.elements.shadow.addEventListener('click', (e) => {
-            if(e.target == this.elements.shadow) this.close();
-        });
+        this.header = new ModalComponent("header");
+        this.content = new ModalComponent("content");
+        this.footer = new ModalComponent("footer");
+
+        document.body.appendChild(this.getElement());
+    }
+
+    createElement() {
+        super.createElement();
+        this.element = createElement('div', 'n0-modal close');
+
+        // shadow
+        let shadow = createElement('div', 'n0-shadow', this.element);
+        shadow.addEventListener('click', () => this.close());
 
         // frame
-        this.elements.frame = document.createElement('div');
-        this.elements.frame.className = `n0-modal-frame size-${this.options.size}`;
-        this.elements.shadow.appendChild(this.elements.frame);
+        let frame = createElement('div', 'n0-frame', this.element);
+        frame.appendChild(this.header.getElement());
+        frame.appendChild(this.content.getElement());
+        frame.appendChild(this.footer.getElement());
 
-        this.elements.header = createElement('div', `n0-modal-header`, this.elements.frame);
-        this.elements.header.style.display = 'none';
-        this.elements.content = createElement('div', `n0-modal-content`, this.elements.frame);
-        this.elements.footer = createElement('div', `n0-modal-footer`, this.elements.frame);
-        this.elements.footer.style.display = 'none';
-
-        this.close();
-        document.body.appendChild(this.elements.shadow);
+        if(this.options.width) frame.style.width = `${this.options.width}px`;
+        if(this.options.height) frame.style.height = `${this.options.height}px`;
     }
-
-    setHeader(element) {
-        this.elements.header.innerHTML = "";
-        this.elements.header.appendChild(element);
-        this.elements.header.style.display = null;
-    }
-
-    setContent(element) {
-        this.elements.content.innerHTML = "";
-        this.elements.content.appendChild(element);
-    }
-    getContent() {
-        let content = this.elements.content.children[0];
-        return content || null;
-    }
-
-    setFooter(element) {
-        this.elements.footer.innerHTML = "";
-        this.elements.footer.appendChild(element);
-        this.elements.footer.style.display = null;
-    }
-
-    close() {
-        this.tc = setTimeout(() => {
-            this.elements.shadow.style.display = 'none';
-            if(this.options.once) this.remove();
-        }, 200);
-        this.onClose();
-        this.elements.shadow.classList.remove('opened')
-        this.elements.shadow.classList.add('closed')
-    }
-    onClose() {}
 
     open() {
-        clearTimeout(this.tc);
-        this.elements.shadow.style.display = null;
-        setTimeout(() => {
-            this.elements.shadow.classList.add('opened')
-            this.elements.shadow.classList.remove('closed')
-        }, 20);
+        clearTimeout(this.ts);
+        resetAnimation(this.getElement());
+        this.getElement().classList.remove('close');
+        this.getElement().classList.add('open');
+        this.onOpen();
     }
     onOpen() {}
 
-    remove() {
-        this.elements.shadow.remove();
-        delete this;
+    /** Dont forget remove all links inside onClose (var = null) */
+    close() {
+        if(this.options.oneoff) this.ts = setTimeout(() => {
+            this.element.remove();
+            this.onClose();
+        }, 1000);
+        this.getElement().classList.add('close');
+        this.getElement().classList.remove('open');
     }
+    onClose() {}
+}
+
+
+class ModalComponent extends UIElement {
+    
+    /**
+     * @param {string} id 
+     */
+    constructor(id) { 
+        super(); 
+        this.id = id;
+    }
+
+    /**
+     * @param {"LEFT" | "CENTER" | "RIGHT"} position
+     */
+    show() { 
+        this.getElement().style.display = null;
+    }
+    hide() { this.getElement().style.display = 'none'; }
+
+    createElement() {
+        super.createElement();
+        this.element = createElement('div', `n0-${this.id}`);
+        this.element.style.display = 'none';
+
+        /** @type {HTMLElement} */
+        this.left = createElement('div', 'left', this.element);
+        /** @type {HTMLElement} */
+        this.center = createElement('div', 'center', this.element);
+        /** @type {HTMLElement} */
+        this.right = createElement('div', 'right', this.element);
+    }
+
+    /**
+     * @param {string} text 
+     * @param {"LEFT" | "CENTER" | "RIGHT"} [position] 
+     */
+    setText(text, position = "CENTER") {
+        this[position.toLowerCase()].textContent = text;
+        this.show();
+    }
+
+    /**
+     * @param {HTMLElement | UIElement} element 
+     * @param {"LEFT" | "CENTER" | "RIGHT"} [position] 
+     */
+    setElement(element, position = "CENTER") {
+        if(!(element instanceof HTMLElement)) element = element.getElement();
+        this[position.toLowerCase()].replaceChildren();
+        this[position.toLowerCase()].appendChild(element);
+        this.show();
+    }
+
+    /**
+     * @param {HTMLElement | UIElement} element 
+     * @param {"LEFT" | "CENTER" | "RIGHT"} [position] 
+     */
+    addElement(element, position = "CENTER") {
+        if(!(element instanceof HTMLElement)) element = element.getElement();
+        this[position.toLowerCase()].appendChild(element);
+        this.show();
+    }
+    
 }
 
 export default Modal;

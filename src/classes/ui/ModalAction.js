@@ -1,27 +1,25 @@
 import { createElement } from "../../utils.js";
+import Button from "./Button.js";
 import Modal from "./Modal.js";
 
 class ModalAction extends Modal{
 
-    constructor(title, btnName) {
-        super();
-        this.elements.frame.classList.add('n0-modal-action');
+    /**
+     * 
+     * @param {String} title 
+     * @param {String} btnName 
+     * @param {import("./UIElement.js").ElementOptions} options 
+     */
+    constructor(title, btnName, options = {}) {
+        super(options);
 
-        let header = createElement('div', 'n0-header-action', null, title);
-        this.setHeader(header);
+        // header
+        this.header.setText(title, "CENTER");
 
-        let footer = createElement('div', 'n0-footer-action');
-        this.elements.footer.options = createElement('div', 'n0-footer-options', footer);
-        this.elements.footer.button = createElement('button', 'n0-btn-green', footer, btnName);
-        this.setFooter(footer);
+        // footer
+        this.elements.buttonAction = new Button(btnName, {size: "NORMAL", state: "READY"}, () => this.onAction());
+        this.footer.setElement(this.elements.buttonAction, "RIGHT");
 
-        this.elements.footer.button.addEventListener('click', () => {
-            this.onAction();
-        });
-    }
-
-    addOption(element) {
-        this.elements.footer.options.appendChild(element);
     }
 
     onAction() {}

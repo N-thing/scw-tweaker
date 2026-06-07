@@ -1,0 +1,68 @@
+.n0-list {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+@scope(.n0-list) {
+
+    .n0-list-element {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .n0-list-element > :first-child {
+        flex: 1;
+    }
+    .n0-list-element:has(.remove) > :first-child {
+        padding-right: 2rem;
+    }
+
+    .n0-list-element::after {
+        content: '';
+        position: absolute;
+        bottom: 0px;
+        left: var(--margin);
+        width: calc(100% - var(--margin) * 2);
+        border-bottom: 1px solid rgba(0,0,0, .066);
+    }
+
+    .remove {
+        opacity: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        width: 2rem;
+        height: 2rem;
+        right: -1rem;
+        padding: 0 !important;
+        transition: opacity .1s ease-out, right .1s ease-out;
+    }
+    .remove svg {
+        width: .8rem !important;
+        height: .8rem !important;
+        margin: 0 !important;
+    }
+
+    /* .remove::before {
+        content: '';
+        position: absolute;
+        left: 2px;
+        top: .4rem;
+        height: calc(100% - .8rem);
+        border-left: 1px solid rgba(0,0,0, .1);
+    } */
+
+    .n0-list-element:hover .remove {
+        opacity: 1;
+        right: 0;
+    }
+
+    .n0-list-element:has(.remove:hover) > :first-child {
+        background-color: var(--n0-color-red-light) !important;
+        transition: none !important;
+    }
+
+}
+

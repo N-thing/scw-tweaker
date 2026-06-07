@@ -20,7 +20,7 @@ function generateManifest() {
     content_scripts: [
       {
         js: ['src/main.js'],
-        css: ["src/style/main.css"],
+        // css: ["src/style/main.css"],
         matches: ['https://z.service-company.biz/*'],
       }
     ],

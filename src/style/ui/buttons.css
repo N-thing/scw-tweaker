@@ -13,6 +13,7 @@
 }
 .n0-button svg {display: inline-block;}
 
+
 /* SMALL */
 .n0-button.n0-size-small {
     line-height: 1.2rem;
@@ -20,3 +21,12 @@
     font-size: 0.6rem;
 }
 .n0-button.n0-size-small svg {height: .6rem; width: .6rem; margin-right: 0.2rem;}
+
+
+/* NORMAL */
+.n0-button.n0-size-normal {
+    line-height: 2rem;
+    padding: 0 0.8rem;
+    font-size: 1rem;
+}
+.n0-button.n0-size-normal svg {height: .6rem; width: .6rem; margin-right: 0.2rem;}

@@ -283,6 +283,7 @@ a {cursor: pointer;}
         top: 8px;
         left: 8px;
         padding: 3px;
+        margin: 0;
         z-index: 999;
         transition: opacity .12s ease-out;
     }
@@ -293,3 +294,4 @@ a {cursor: pointer;}
 }
 
 }
+

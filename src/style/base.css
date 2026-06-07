@@ -4,7 +4,10 @@
     --n0-color-base-black: #334a07;
     --n0-color-red: #e03505;
     --n0-color-red-light: #fd5037;
-    --n0-color-gray-light: #c4c4c4;
+    --n0-color-gray-light: #e4e4e4;
+
+    --n0-radius-round: .5rem;
+    --n0-radius-bubble: 1rem;
 }
 
 body > .v-overlay-container {
@@ -12,6 +15,8 @@ body > .v-overlay-container {
 }
 
 #floatMenu {
+    margin: -1rem -1rem 0 -1rem;
+    border-radius: 0;
     top: 64px !important;
 }
 

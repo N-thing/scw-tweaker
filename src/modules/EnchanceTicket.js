@@ -1,7 +1,7 @@
 import Core from "../core.js";
 import Module from "./Module.js";
 import { createElement, log, saveWithName } from "../utils.js";
-import FileToParent from './EnchanceFiles/FileToParent.js';
+import ModalToParent from './EnchanceFiles/ModalToParent.js';
 import Modal from "../classes/ui/Modal.js";
 import { getFileBlob } from "../scw.js";
 import FileElement from "../classes/FileElement.js";
@@ -20,6 +20,12 @@ class EnchanceTicket extends Module {
             cardTitles: null,
             header: null,
         };
+
+        this.configs.add('file_prefixes', "Array", [
+            "Ответ собственнику",
+            "Ответ от собственника",
+            "Письмо-приглашение",
+        ]);
     }
 
     applyPage(page) {
@@ -164,9 +170,13 @@ class EnchanceTicket extends Module {
 
         let imageWrapper = createElement('div', 'n0-image-wrapper n0-file', imagesBlock);
         imageWrapper.appendChild(file.a);
+
+        let originalDest = file.element.parentElement;
         file.element.remove();
         file.element = imageWrapper;
         file.a.innerHTML = "";
+
+        if(originalDest.innerHTML == "") originalDest.remove();
         
         let img = createElement('img', 'n0-image', file.a);
         img.src = file.url;
@@ -183,7 +193,7 @@ class EnchanceTicket extends Module {
             button.setState("NORMAL");
         };
 
-        let button = new Button(name, classNames, action, {size: "MICRO"});
+        let button = new Button(name, {size: "MICRO", state: "NORMAL"}, action, classNames);
         file.element.prepend(button.getElement());
     }
 
@@ -192,11 +202,12 @@ class EnchanceTicket extends Module {
         let name = `${icons.backward} В РОДИТЕЛЯ`;
         let classNames = ['to-parent'];
         let action = () => {
-            let modal = new FileToParent(ticket.parent_ticket.id, file);
+            let modal = new ModalToParent(this, ticket.parent_ticket, file);
             modal.open();
+            modal.onClose = () => {modal = null;};
         };
 
-        let button = new Button(name, classNames, action, {size: "SMALL", state: "READY"});
+        let button = new Button(name, {size: "SMALL", state: "READY"}, action, classNames);
         file.element.appendChild(button.getElement());
     }
 

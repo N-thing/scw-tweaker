@@ -33,9 +33,10 @@ export const ElementStyle = Object.freeze({
  * @readonly
  */
 export const ElementSize = Object.freeze({ 
-    NORMAL: "NORMAL",
+    MICRO: "MICRO", 
     SLIM: "SLIM", 
     SMALL: "SMALL", 
+    NORMAL: "NORMAL",
     BIG: "BIG",
     YOURMOM: "YOURMOM",
 });
@@ -45,7 +46,7 @@ export const ElementSize = Object.freeze({
  */
 
 /**
- * @typedef {ElementOptions} Options
+ * @typedef {Object} ElementOptions
  * @property {ElementSize} [size]
  * @property {ElementState} [state]
  * @property {ElementStyle} [style]
@@ -58,10 +59,12 @@ class UIElement {
      */
     constructor(options = {}) {
         this.element = null;
+        /** @type {Object<string, UIElement>} */
+        this.elements = {};
         this.options = {
-            size: ElementSize.NORMAL,
-            state: ElementState.NORMAL,
-            style: ElementStyle.NORMAL,
+            size: null,
+            state: null,
+            style: null,
         };
         Object.assign(this.options, options);
     }
@@ -79,6 +82,10 @@ class UIElement {
         }
         return this.element;
     }
+
+    createElement() {
+        if(this.element) this.element.remove();
+    }
     
     /**
      * @param {ElementSize} value 
@@ -86,7 +93,7 @@ class UIElement {
     setSize(value) {
         this.options.size = value;
         if(!this.element) return;
-        switchClassWithPrefix(this.element, 'n0-size-', value.toLowerCase());
+        switchClassWithPrefix(this.element, 'n0-size-', value);
     }
 
     /**
@@ -95,7 +102,7 @@ class UIElement {
     setState(value) {
         this.options.state = value;
         if(!this.element) return;
-        switchClassWithPrefix(this.element, 'n0-state-', value.toLowerCase());
+        switchClassWithPrefix(this.element, 'n0-state-', value);
     }
 
     /**
@@ -104,7 +111,7 @@ class UIElement {
     setStyle(value) {
         this.options.style = value;
         if(!this.element) return;
-        switchClassWithPrefix(this.element, 'n0-style-', value.toLowerCase());
+        switchClassWithPrefix(this.element, 'n0-style-', value);
     }
 }
 

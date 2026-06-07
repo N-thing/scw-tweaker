@@ -1,0 +1,60 @@
+
+/* 
+==========================================
+        INPUT - text
+==========================================
+*/
+
+.n0-input-text {
+    position: relative;
+}
+
+@scope(.n0-input-text) {
+
+    .placeholder {
+        opacity: .3;
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        transform-origin: 0% 0%;
+        transition: transform .1s ease-out, opacity .1s ease-out;
+        white-space: nowrap;
+    }
+
+}
+
+
+.n0-input-text.n0-size-normal {
+    line-height: 0.8rem;
+}
+
+@scope(.n0-input-text) {
+
+    input {
+        width: 100%;
+    }
+
+    :scope.n0-size-normal input {
+        padding: 0.7rem 1rem .3rem 1rem;
+        transition: background-color .12s ease-out;
+    }
+
+    :scope.n0-size-normal .placeholder {
+        top: 0;
+        left: 1rem;
+        padding-top: .7rem;
+    }
+
+}
+
+.n0-input-text.n0-size-normal:not(:has(.placeholder)) input { padding: 0.5rem 1rem; }
+
+.n0-input-text.n0-state-normal:has(input:focus) { background-color: var(--n0-color-base); }
+.n0-input-text.n0-state-normal:has(input:hover) { background-color: var(--n0-color-base-light); }
+
+.n0-input-text.n0-state-normal:has(input:focus) .placeholder,
+.n0-input-text.n0-state-normal:has(input:not(:placeholder-shown)) .placeholder {
+    opacity: .5;
+    transform: scale(.48);
+}

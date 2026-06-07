@@ -41,6 +41,7 @@ export class ModuleConfigs {
     }
     async load() {
         let storage = await chrome.storage.local.get(this.configsId);
+        log(storage);
         Object.assign(this.list, storage[this.configsId]);
     }
     async save() {

@@ -1,3 +1,4 @@
+import Button from "../../classes/ui/Button.js";
 import Core from "../../core.js";
 import icons from "../../icons.js";
 import { createElement, log, saveWithName } from "../../utils.js";
@@ -18,7 +19,16 @@ class ImageSlider {
         this.elements.header =  createElement('div', 'n0-ef-slider-header', this.elements.viewer);
         this.elements.name =  createElement('div', 'n0-ef-slider-name', this.elements.header);
         this.elements.actions =  createElement('div', 'n0-ef-slider-actions', this.elements.header);
-        this.elements.btnDownload = createElement('button', 'n0-ef-slider-download n0-btn-green', this.elements.actions, `${icons.download} загрузить`);
+        
+        this.btnDownload = new Button(`${icons.download} загрузить`, {size: "NORMAL", state: "READY", style: "BUBBLE"}, async e => {
+            this.btnDownload.setState("WAITING");
+            let file = this.list[this.current];
+            let success = await saveWithName(file.url, file.name);
+            if(success) this.btnDownload.setState("READY");
+            else this.btnDownload.setState("ERROR");
+        }, ['download']);
+        this.elements.actions.appendChild(this.btnDownload.getElement());
+        
         this.elements.images =  createElement('div', 'n0-ef-slider-images', this.elements.viewer);
 
         this.elements.arrowRight =  createElement('div', 'n0-ef-slider-arrow n0-ef-slider-arrow-right', this.elements.content, '>');
@@ -26,11 +36,6 @@ class ImageSlider {
         this.elements.previews = createElement('div', 'n0-ef-slider-previews', this.elements.base);
 
         document.body.appendChild(this.elements.base);
-
-        this.elements.btnDownload.addEventListener('click', e => {
-            let file = this.list[this.current];
-            saveWithName(file.url, file.name);
-        });
 
         this.elements.base.addEventListener('click', e => {
             if (

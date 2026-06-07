@@ -83,13 +83,14 @@ export async function sendFeedback(ticketId, rating, _msg, _points) {
     return await fetchSCW('https://api.service-company.biz/zebra_api/feedback/send_feedback/', 'POST', JSON.stringify(body));
 }
 
-export async function sendFiles(id, files) {
+export async function sendFiles(id, files, comment = "") {
     if(typeof files != 'array') files = [files];
 
     let body = new FormData();
     for(const file of files) {
         body.append('files', file, file.name);
     }
+    if(comment != "") body.append('comment', comment);
     return await fetchSCW(`https://api.service-company.biz/zebra_api/file/ticket_attachment/${id}/`, 'POST', body, {contentType: "files"});
 }
 
