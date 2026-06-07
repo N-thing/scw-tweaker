@@ -1,9 +1,10 @@
 import { getTicketById } from './scw.js'
 import CommentElement from './classes/CommentElement.js';
 import FileElement from './classes/FileElement.js';
-import { getCurrentTicketId, log } from './utils.js';
+import { createElement, getCurrentTicketId, log } from './utils.js';
 import configs from './configs.js';
 import Notifier from './classes/ui/notifier.js';
+import Button from './classes/ui/Button.js';
 
 class Core {
 
@@ -15,6 +16,35 @@ class Core {
     }
 
     init() {
+
+        let n0 = {
+            getStorage: async () => {
+                let keys = await chrome.storage.local.getKeys();
+                let result = {};
+                for(const key of keys) {
+                    result[key] = (await chrome.storage.local.get(key))[key];
+                }
+                log(result, 'debug');
+            },
+            clearStorage: async () => {
+                await chrome.storage.local.clear();
+                n0.getStorage();
+            }
+        };
+
+        if(!document.querySelector('.n0-debug') && configs.debug) {
+            let debugPanel = createElement('div', 'n0-debug', document.body);
+            debugPanel.style.position = 'fixed';
+            debugPanel.style.zIndex = '99999999';
+            debugPanel.style.top = '0px';
+            debugPanel.style.left = '0px';
+
+            let btnClearStorage = new Button('clear', {state: 'READY', size: 'NORMAL'}, n0.clearStorage);
+            let btnGetStorage = new Button('get', {state: 'READY', size: 'NORMAL'}, n0.getStorage);
+
+            debugPanel.appendChild(btnClearStorage.getElement());
+            debugPanel.appendChild(btnGetStorage.getElement());
+        }
 
         // инциализация модулей
         for(const module of this.modules) module.init(this);
@@ -43,8 +73,8 @@ class Core {
         clearInterval(window.coreInterval);
         window.coreInterval = setInterval(() => {
             for(const module of this.modules) {
-                if(!module.configs.get('enabled')) continue;
-                module.update();
+                if(!module.configs.getValue('enabled')) continue;
+                module.onUpdate();
             }
         }, configs.intervalFreq);
         
@@ -59,7 +89,7 @@ class Core {
 
         // смена странички для всего остального
         for(const module of this.modules) {
-            if(!module.configs.get('enabled')) continue;
+            if(!module.configs.getValue('enabled')) continue;
             module.applyPage(page);
         }
     }

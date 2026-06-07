@@ -7,6 +7,7 @@ export let modules = [
 ];
 
 export let configs = {
+    debug: false,
     intervalFreq: 200
 };
 

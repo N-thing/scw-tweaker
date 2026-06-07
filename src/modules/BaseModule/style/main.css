@@ -1,0 +1,12 @@
+#n0-ticket-finder {
+    width: 8rem;
+    margin-right: 1rem;
+}
+
+@scope(#n0-ticket-finder) {
+
+    svg {
+        transform: rotate(90deg);
+    }
+
+}

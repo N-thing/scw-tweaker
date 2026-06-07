@@ -21,12 +21,12 @@ window.addEventListener('DOMContentLoaded', () => {
         button.type = "checkbox";
         
         module.configs.load().then(() => {
-            button.checked = module.configs.get('enabled');
+            button.checked = module.configs.getValue('enabled');
         });
 
-        button.addEventListener('click', () => {
-            module.configs.set('enabled', button.checked);
-            module.configs.save();
+        button.addEventListener('click', async () => {
+            label.innerText = button.checked;
+            await module.configs.setValue('enabled', button.checked);
         });
         
     }

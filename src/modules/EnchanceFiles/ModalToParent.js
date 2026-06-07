@@ -11,7 +11,6 @@ class ModalToParent extends ModalAction {
     
     constructor(module, ticket, file) {
         super(`ОТПРАВИТЬ В №${ticket.number}`, "ОТПРАВИТЬ", {width: 340});
-        log(module.configs.get('file_prefixes'));
         this.module = module;
         this.file = file;
         this.ticketId = ticket.id;
@@ -58,7 +57,8 @@ class ModalToParent extends ModalAction {
 
     updateSchemaPrefixes() {
         this.elements.schemasMenu.clear();
-        for(const schema of this.module.configs.get('file_prefixes')) {
+        log(this.module.configs.getValue('file_prefixes'));
+        for(const schema of this.module.configs.getValue('file_prefixes')) {
             let el = new Button(schema, {size: "NORMAL", state: "NORMAL", style: "NORMAL"});
             el.action = () => {
                 this.elements.inputPrefix.value = schema;
@@ -68,19 +68,17 @@ class ModalToParent extends ModalAction {
     } 
 
     async addPrefix(prefix) {
-        let prefixes = this.module.configs.get('file_prefixes');
+        let prefixes = this.module.configs.getValue('file_prefixes');
         prefixes.push(prefix);
-        this.module.configs.set('file_prefixes', prefixes);
-        await this.module.configs.save();
+        await this.module.configs.setValue('file_prefixes', prefixes);
         this.updateSchemaPrefixes();
         return true;
     }
 
     async removePrefix(index) {
-        let prefixes = this.module.configs.get('file_prefixes');
+        let prefixes = this.module.configs.getValue('file_prefixes');
         prefixes.splice(index, 1);
-        this.module.configs.set('file_prefixes', prefixes);
-        await this.module.configs.save();
+        await this.module.configs.setValue('file_prefixes', prefixes);
         return true;
     }
 

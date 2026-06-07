@@ -21,7 +21,7 @@ class EnchanceTicket extends Module {
             header: null,
         };
 
-        this.configs.add('file_prefixes', "Array", [
+        this.configs.addConfig('file_prefixes', "Array", [
             "Ответ собственнику",
             "Ответ от собственника",
             "Письмо-приглашение",
@@ -39,7 +39,7 @@ class EnchanceTicket extends Module {
                 files: false
             };
 
-            this.update = () => {
+            this.onUpdate = () => {
 
                 cache.header = document.getElementById('floatMenu');
                 if(cache.header) {
@@ -49,6 +49,7 @@ class EnchanceTicket extends Module {
 
                         if(btnTitle.startsWith('открыть чат')) button.innerHTML = "ЧАТ";
                         else if(btnTitle.startsWith(' создать связанную заявку ')) button.innerHTML = "СОЗДАТЬ ЗАЯВКУ";
+                        else if(btnTitle.startsWith('добавить дату контроля')) button.innerHTML = button.innerHTML.replace('Добавить дату контроля', 'Дата контроля ');
                         else if(btnTitle.startsWith('отменить заявку ')) button.innerHTML = button.innerHTML.replace('заявку ', '');
                         else if(btnTitle.startsWith('вернуть ответственному ')) button.innerHTML = button.innerHTML.replace('ответственному ', '');
 
@@ -74,7 +75,7 @@ class EnchanceTicket extends Module {
 
             };
         } else {
-            this.update = () => {};
+            this.onUpdate = () => {};
         }
 
     }

@@ -25,7 +25,7 @@
 */
 
 .n0-state-normal {
-    background-color: #ebebeb;
+    background-color: var(--n0-color-gray-light);
     transition: background-color .12s ease-out;
 }
 .n0-state-normal:hover {
