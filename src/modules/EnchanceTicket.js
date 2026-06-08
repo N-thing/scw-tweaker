@@ -118,7 +118,7 @@ class EnchanceTicket extends Module {
             let file = files[i];
             file.element.classList.add('n0-file');
 
-            if( file.type == 'image' ) {
+            if( file.type == 'image' || file.type == 'video') {
 
                 this.setElementImageFile(file);
                 this.addDownloadButton(file);

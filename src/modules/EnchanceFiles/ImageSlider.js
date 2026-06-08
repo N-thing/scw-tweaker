@@ -1,7 +1,7 @@
 import Button from "../../classes/ui/Button.js";
 import Core from "../../core.js";
 import icons from "../../icons.js";
-import { createElement, log, saveWithName } from "../../utils.js";
+import { createElement, getAnyCors, log, saveWithName } from "../../utils.js";
 
 class ImageSlider {
     constructor() {
@@ -84,45 +84,84 @@ class ImageSlider {
 
         for(let i=0; i<list.length; i++) {
 
-            let image = createElement('img', 'n0-ef-slider-image');
-            image.src = list[i].url;
-            this.elements.images.appendChild(image);
-
-            image.onload = () => {
-                image.style.top = `${(h-image.height) * 0.5}px`;
-                this.loaded++;
-                if(this.loaded == this.list.length) this.change(current);
-            }
-
             let preview = createElement('div', 'n0-ef-slider-preview');
             this.elements.previews.appendChild(preview);
 
             let prevImage = createElement('img');
-            prevImage.src = list[i].url;
             preview.appendChild(prevImage);
 
             preview.addEventListener('click', () => {
                 this.change(i);
             });
+
+            if(list[i].type == "image") {
+
+                let image = createElement('img', 'n0-ef-slider-image');
+                image.src = list[i].url;
+                this.elements.images.appendChild(image);
+
+                image.onload = () => {
+                    image.style.top = `${(h-image.height) * 0.5}px`;
+                    this.loaded++;
+                    if(this.loaded == this.list.length) this.change(current);
+                }
+
+                prevImage.src = list[i].url;
+
+            } else if(list[i].type == "video") {
+
+                let video = createElement('video', 'n0-ef-slider-image');
+                log(list[i].url);
+                video.src = list[i].url;
+                video.setAttribute('muted', '')
+                video.setAttribute('playsinline', '')
+                video.setAttribute('controls', 'true');
+                this.elements.images.appendChild(video);
+
+                video.addEventListener('loadeddata', () => {
+                    video.style.top = `${Math.max((h-video.videoHeight) * 0.5, 0)}px`;
+                    this.loaded++;
+                    
+                    if(this.loaded == this.list.length) this.change(current);
+                });
+
+            }
         }
     }
 
     change(value) {
+        this.open();
         let prev = this.current;
         this.current = value;
         
         this.elements.name.innerHTML = `${this.list[value].name}`;
 
-        let ratio = this.elements.images.children[value].width / this.elements.images.children[value].height;
+        let eWidth = this.elements.images.children[value].videoWidth ?? this.elements.images.children[value].width;
+        let eHeight = this.elements.images.children[value].videoHeight ?? this.elements.images.children[value].height;
+
+        let ratio = eWidth / eHeight;
         let width = `${84 * ratio}vh`;
-        if(window.innerHeight * 0.84 * ratio > this.elements.images.children[value].width) width = `${this.elements.images.children[value].width}px`;
+        if(window.innerHeight * 0.84 * ratio > eWidth) width = `${eWidth}px`;
         this.elements.images.style.width = width;
 
         for(let i=0; i<this.list.length; i++) {
 
+            let iElement = this.elements.images.children[i];
+            if(iElement.tagName == 'VIDEO') {
+                if(i == value) {
+                    iElement.currentTime = 0;
+                    iElement.play();
+                } else {
+                    iElement.pause();
+                }
+            }
+
+            let iWidth = this.elements.images.children[i].videoWidth ?? this.elements.images.children[i].width;
+            let iHeight = this.elements.images.children[i].videoHeight ?? this.elements.images.children[i].height;
+
             let relIndex = Math.min(1, Math.max(-1, i - value));
-            if(relIndex < 0) this.elements.images.children[i].style.left = `${this.elements.images.children[i].width * relIndex}px`;
-            else this.elements.images.children[i].style.left = `${this.elements.images.children[value].width * relIndex}px`;
+            if(relIndex < 0) this.elements.images.children[i].style.left = `${iWidth * relIndex}px`;
+            else this.elements.images.children[i].style.left = `${eWidth * relIndex}px`;
 
             if(i == value) {
                 this.elements.previews.children[i].classList.add('current');

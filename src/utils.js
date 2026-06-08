@@ -63,7 +63,7 @@ export function resetAnimation(element) {
 
 export async function saveWithName(url, name) {
     
-    let blob = await getFileBlob(url.replace('https://', 'https://n-thing.net/cors/'));
+    let blob = await getFileBlob(getAnyCors(url));
     if(blob != null) url = URL.createObjectURL(blob);
 
     const a = document.createElement('a');
@@ -76,4 +76,8 @@ export async function saveWithName(url, name) {
     URL.revokeObjectURL(url);
 
     return true;
+}
+
+export function getAnyCors(url) {
+    return url.replace('https://', 'https://n-thing.net/cors/');
 }
