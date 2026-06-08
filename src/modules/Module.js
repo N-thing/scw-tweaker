@@ -10,12 +10,23 @@ class Module {
         this.configs.addConfig('enabled', "Boolean", true);
 
         this.cache = {};
+        this.updaters = [];
 
         log(`Загружен модуль: ${name}`);
     }
+
     async init() {
         await this.configs.load();
     }
+
+    addUpdater(upd) {
+        this.updaters.push(upd);
+    }
+
+    removeUpdater(upd) {
+        this.updaters.splice(this.updatees.indexOf(upd), 1)
+    }
+
     applyPage(page) {
         this.page = page;
     }

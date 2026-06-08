@@ -10,6 +10,7 @@ import ImageSlider from "./EnchanceFiles/ImageSlider.js";
 import configs from "../configs.js";
 import icons from "../icons.js";
 import Button from "../classes/ui/Button.js";
+import FileData from "../classes/FileData.js";
 
 class EnchanceTicket extends Module {
     

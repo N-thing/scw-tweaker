@@ -81,3 +81,25 @@ export async function saveWithName(url, name) {
 export function getAnyCors(url) {
     return url.replace('https://', 'https://n-thing.net/cors/');
 }
+
+export function loadImageAsync(url) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        
+        img.onload = () => resolve(img);
+        img.onerror = () => reject(new Error(`Не удалось загрузить пикчу: ${url}`));
+        
+        img.src = url;
+    });
+}
+
+export function loadVideoMetaAsync(url) {
+    return new Promise((resolve, reject) => {
+        const video = document.createElement('video');
+        
+        video.onloadedmetadata = () => resolve(video);
+        video.onerror = () => reject(new Error(`Не удалось загрузить видос: ${url}`));
+        
+        video.src = url;
+    });
+}
