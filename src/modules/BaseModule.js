@@ -20,12 +20,6 @@ class BaseModule extends Module {
 
     applyPage(page) {
         super.applyPage(page);
-
-        this.updaters[0].active = true;
-    }
-
-    onUpdate() {
-        for(const updater of this.updaters) { updater.update(); }
     }
 
 }

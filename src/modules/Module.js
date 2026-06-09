@@ -11,6 +11,7 @@ class Module {
 
         this.cache = {};
         this.updaters = [];
+        this.page = {}
 
         log(`Загружен модуль: ${name}`);
     }
@@ -24,14 +25,19 @@ class Module {
     }
 
     removeUpdater(upd) {
-        this.updaters.splice(this.updatees.indexOf(upd), 1)
+        this.updaters.splice(this.updaters.indexOf(upd), 1)
     }
 
     applyPage(page) {
         this.page = page;
+
+        for(const updater of this.updaters) { updater.active = true; }
     }
     interval() {}
-    onUpdate() {}
+
+    onUpdate() {
+        for(const updater of this.updaters) { updater.update(); }
+    }
 }
 
 export class ModuleConfigs {

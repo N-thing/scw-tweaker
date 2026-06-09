@@ -11,6 +11,7 @@ import configs from "../configs.js";
 import icons from "../icons.js";
 import Button from "../classes/ui/Button.js";
 import FileData from "../classes/FileData.js";
+import UpdaterComments from "./EnchanceFiles/UpdaterComments.js";
 
 class EnchanceTicket extends Module {
     
@@ -27,57 +28,59 @@ class EnchanceTicket extends Module {
             "Ответ от собственника",
             "Письмо-приглашение",
         ]);
+
+        this.addUpdater(new UpdaterComments(this));
     }
 
     applyPage(page) {
         super.applyPage(page);
-        const { cache } = this;
-        const { ticket } = page.data;
+        // const { cache } = this;
+        // const { ticket } = page.data;
 
-        if(page.section == 'ticket-view') {
+        // if(page.section == 'ticket-view') {
 
-            this.loaded = {
-                files: false
-            };
+        //     this.loaded = {
+        //         files: false
+        //     };
 
-            this.onUpdate = () => {
+        //     this.onUpdate = () => {
 
-                cache.header = document.getElementById('floatMenu');
-                if(cache.header) {
-                    cache.headerButtons = cache.header.querySelectorAll('button span:not(.buttoned)');
-                    for(const button of cache.headerButtons) {
-                        let btnTitle = button.innerHTML.toLocaleLowerCase();
+        //         cache.header = document.getElementById('floatMenu');
+        //         if(cache.header) {
+        //             cache.headerButtons = cache.header.querySelectorAll('button span:not(.buttoned)');
+        //             for(const button of cache.headerButtons) {
+        //                 let btnTitle = button.innerHTML.toLocaleLowerCase();
 
-                        if(btnTitle.startsWith('открыть чат')) button.innerHTML = "ЧАТ";
-                        else if(btnTitle.startsWith(' создать связанную заявку ')) button.innerHTML = "СОЗДАТЬ ЗАЯВКУ";
-                        else if(btnTitle.startsWith('добавить дату контроля')) button.innerHTML = button.innerHTML.replace('Добавить дату контроля', 'Дата контроля ');
-                        else if(btnTitle.startsWith('отменить заявку ')) button.innerHTML = button.innerHTML.replace('заявку ', '');
-                        else if(btnTitle.startsWith('вернуть ответственному ')) button.innerHTML = button.innerHTML.replace('ответственному ', '');
+        //                 if(btnTitle.startsWith('открыть чат')) button.innerHTML = "ЧАТ";
+        //                 else if(btnTitle.startsWith(' создать связанную заявку ')) button.innerHTML = "СОЗДАТЬ ЗАЯВКУ";
+        //                 else if(btnTitle.startsWith('добавить дату контроля')) button.innerHTML = button.innerHTML.replace('Добавить дату контроля', 'Дата контроля ');
+        //                 else if(btnTitle.startsWith('отменить заявку ')) button.innerHTML = button.innerHTML.replace('заявку ', '');
+        //                 else if(btnTitle.startsWith('вернуть ответственному ')) button.innerHTML = button.innerHTML.replace('ответственному ', '');
 
-                        button.classList.add('buttoned');
-                    }
-                }
+        //                 button.classList.add('buttoned');
+        //             }
+        //         }
 
-                cache.cardTitles = document.querySelectorAll('.v-card--flat > .v-card-title:not(.loaded)');
-                for(const cardTitle of cache.cardTitles) {
+        //         cache.cardTitles = document.querySelectorAll('.v-card--flat > .v-card-title:not(.loaded)');
+        //         for(const cardTitle of cache.cardTitles) {
 
-                    switch(cardTitle.innerHTML) {
-                        case "Файлы":
-                            cardTitle.classList.add('loaded');
-                            cardTitle.parentElement.classList.add('n0-et-files');
-                            this.checkFiles(ticket, cardTitle.parentElement);
-                            break;
-                        case "История":
-                            this.checkComments(ticket, cardTitle.parentElement);
-                            break;
-                    }
+        //             switch(cardTitle.innerHTML) {
+        //                 case "Файлы":
+        //                     cardTitle.classList.add('loaded');
+        //                     cardTitle.parentElement.classList.add('n0-et-files');
+        //                     this.checkFiles(ticket, cardTitle.parentElement);
+        //                     break;
+        //                 case "История":
+        //                     this.checkComments(ticket, cardTitle.parentElement);
+        //                     break;
+        //             }
 
-                }
+        //         }
 
-            };
-        } else {
-            this.onUpdate = () => {};
-        }
+        //     };
+        // } else {
+        //     this.onUpdate = () => {};
+        // }
 
     }
 
