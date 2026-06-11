@@ -27,7 +27,7 @@ class FileData {
     constructor(a) {
         this.url = a.href;
         this.name = a.innerHTML;
-        this.extension = this.name.split('.').pop();
+        this.extension = this.name.split('.').pop().toLowerCase();
         this.mime = MIME_TYPES[this.extension] || 'application/octet-stream';
         this.type = this.mime.split('/')[0];
     }

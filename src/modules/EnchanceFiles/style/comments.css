@@ -1,0 +1,37 @@
+.n0-comment.enchance {
+}
+
+@scope(.n0-comment.enchance) {
+
+    :scope > .v-card {
+        margin: 2px;
+        padding: .2rem;
+        background-color: rgba(0,0,0, .05);
+    }
+
+    .comment-header {
+        padding: 0 !important;
+    }
+
+    .comment-header > .v-row {
+        flex-direction: row-reverse;
+        justify-content: space-between;
+    }
+
+    .comment-title {
+        display: none;
+    }
+
+    .comment-author {
+        margin: .5rem 0 !important;
+        padding: 0;
+    }
+
+    .comment-date {
+        font-size: 1rem;
+        padding-right: 1rem !important;
+    }
+
+    .v-col:has(:scope > svg) {display: none;}
+
+}

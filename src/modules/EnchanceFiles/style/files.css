@@ -4,6 +4,10 @@
     
 }
 
+.n0-comment .n0-files-enchanced {
+    width: 100%;
+}
+
 .n0-comment .n0-files-enchanced .media {
     display: flex;
     flex-wrap: wrap;
@@ -12,12 +16,18 @@
 @scope(.n0-files-enchanced .media) {
 
     .n0-file {
-        height: 9rem;
-        min-width: 6rem;
-        max-width: 12rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        height: 7.5rem;
+        min-width: 5.5rem;
+        max-width: 12.5rem;
+        cursor: pointer;
         /* height: 8rem;
         width: 7.7rem; */
     }
+    .n0-file.video { width: 6rem; }
 
     .content {
         height: 100%;
@@ -39,7 +49,7 @@
         transition: background-color .08s ease-out, transform .08s ease-out;
     }
     .n0-file.video .content-wrapper { background-color: rgba(0,0,0, 1); }
-    .content:hover .content-wrapper {
+    .n0-file:hover .content-wrapper {
         background-color: var(--n0-color-base);
         /* transform: scale(1.1); */
     }
@@ -51,20 +61,19 @@
         object-position: center;
         border: 1px solid rgba(0,0,0, .1);
         border-radius: .2rem;
-        transition: opacity .08s ease-out;
+        transition: opacity .08s ease-out, transform .08s ease-out;
     }
-    .content:hover img {
-        opacity: .7;
+    .n0-file:hover img { 
+        opacity: .66; 
+        /* transform: scale(1.2); */
     }
 
     .content .icon {
-        width: 3rem;
-        height: 3rem;
+        width: 2rem;
+        height: 2rem;
+        transition: width .08s ease-out, height .08s ease-out;
     }
-
-    .content .icon svg path {
-        fill: white !important;
-    }
+    .content .icon svg path { fill: white !important; }
 
     .content .file-name {
         overflow: hidden;
@@ -81,9 +90,117 @@
         border-radius: 2rem;
         transition: opacity .08s ease-out, bottom .08s ease-out;
     }
-    .content:hover .file-name {
+    .n0-file:hover .file-name {
         opacity: 0;
         bottom: -.2rem;
+    }
+
+    .actions {
+        opacity: 0;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        border-radius: 100rem;
+        bottom: 0rem;
+        transition: opacity .08s ease-out, bottom .08s ease-out;
+    }
+    .n0-file:hover .actions {
+        opacity: 1;
+        bottom: .8rem;
+    }
+
+    .actions .n0-button {
+        margin: 0 .2rem;
+        outline: 1px solid rgba(0,0,0, .12);
+    }
+
+}
+
+.n0-comment .n0-files-enchanced .other {
+    width: 100%;
+    background-color: rgba(0,0,0, .1);
+    border-radius: .4rem;
+    overflow: hidden;
+}
+
+@scope(.n0-files-enchanced .other) {
+
+    .n0-file {
+        display: flex;
+        line-height: 2rem;
+        position: relative;
+        transition: background-color .08s ease-out;
+    }
+    .n0-file::before {
+        content: '';
+        position: absolute;
+        width: calc(100% - 1rem);
+        left: .5rem;
+        bottom: -1px;
+        border-bottom: 1px solid rgba(0,0,0, .05);
+    }
+    .n0-file:last-child::before {
+        display: none;
+    }
+
+    .n0-file:hover {
+        background-color: var(--n0-color-base);
+        transition: none;
+    }
+
+    .content {
+        padding: .5rem;
+        flex: 1;
+        overflow: hidden; /* обрезает текст, который выходит за границы */
+    }
+    
+    .content-wrapper {
+        display: flex;
+        align-items: center;
+    }
+
+    .extension {
+        line-height: 1.3rem;
+        padding: 0 .4rem;
+        background-color: white;
+        border-radius: .2rem;
+        margin-right: .3rem;
+    }
+
+    .file-name {
+        overflow: hidden; /* обрезает текст, который выходит за границы */
+        text-overflow: ellipsis; /* добавляет многоточие, если сработало overflow */
+        white-space: nowrap; /* запрещает перенос строк */
+    }
+
+    .actions {
+        display: flex;
+        flex-direction: row-reverse;
+        max-width: 0;
+        transition: max-width .08s ease-out;
+    }
+    .n0-file:hover .actions {
+        max-width: 20%;
+    }
+
+    .actions .n0-button {
+        opacity: 0;
+        border-radius: 0;
+        padding: 0 .5rem;
+        transition: opacity .08s ease-out, transform .08s ease-out;
+        transform: translateY(.5rem);
+    }
+    .n0-file:hover .actions .n0-button {
+        opacity: .33;
+        transform: translateY(0);
+    }
+    .n0-file:hover .actions .n0-button:hover {
+        opacity: 1;
+    }
+
+    .actions .n0-button.backward {
+        padding-right: .5rem;
+        padding-left: .1rem;
     }
 
 }

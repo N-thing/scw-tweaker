@@ -10,11 +10,7 @@ class UpdaterComments extends ModuleUpdater {
     }
 
     onUpdate() {
-
-        if(this.module.page.section != "ticket-view") {
-            this.active = false;
-            return;
-        }
+        if(this.module.page.section != "ticket-view") return;
         
         const {cache} = this.module;
         const {ticket} = this.module.page.data;
@@ -26,16 +22,16 @@ class UpdaterComments extends ModuleUpdater {
 
                 // Определение блока массива комментов
                 const card = cardTitle.parentElement;
-                if(!this.comments) this.comments = card.querySelector('.v-card-text').children[0].querySelector('.v-row:not(.v-row--dense)');
-                this.comments.classList.add('n0-comments');
+                if(!cache.comments) cache.comments = card.querySelector('.v-card-text').children[0].querySelector('.v-row:not(.v-row--dense)');
+                cache.comments.classList.add('n0-comments');
                 
                 // Массив комментов
-                let rawComments = this.comments.querySelectorAll(':scope > .v-col:not(.n0-comment)');
+                let rawComments = cache.comments.querySelectorAll(':scope > .v-col:not(.n0-comment)');
 
                 for(let i=0; i<rawComments.length; i++) {
                     rawComments[i].classList.add('n0-comment');
                     let commentData = new CommentData(rawComments[i]);
-                    let comment = new UIComment(commentData);
+                    let comment = new UIComment(this.module, commentData);
 
                     comment.enchance();
                     comment.enchanceFiles();

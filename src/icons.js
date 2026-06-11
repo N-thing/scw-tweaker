@@ -1,11 +1,11 @@
 let icons = {
 
-    download: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M3 15C3 17.8284 3 19.2426 3.87868 20.1213C4.75736 21 6.17157 21 9 21H15C17.8284 21 19.2426 21 20.1213 20.1213C21 19.2426 21 17.8284 21 15" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M12 3V16M12 16L16 11.625M12 16L8 11.625" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    download: `<svg style="stroke: var(--svg-color);" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 15C3 17.8284 3 19.2426 3.87868 20.1213C4.75736 21 6.17157 21 9 21H15C17.8284 21 19.2426 21 20.1213 20.1213C21 19.2426 21 17.8284 21 15" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12 3V16M12 16L16 11.625M12 16L8 11.625" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>`,
 
-    backward: `<svg fill="#1C274C" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512.053 512.053" xml:space="preserve">
+    backward: `<svg viewBox="-64 -32 642 642"  style="fill: var(--svg-color);" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
         <path d="M496.197,343.5C461.595,226.721,356.4,145.057,234.672,139.34V53.793c0-8.619-5.184-16.405-13.163-19.712    c-7.979-3.328-17.152-1.472-23.253,4.629l-192,192c-8.341,8.341-8.341,21.824,0,30.165l192,192    c6.101,6.101,15.275,7.957,23.253,4.629c7.979-3.285,13.163-11.093,13.163-19.712v-109.78    c41.429-4.203,153.195,0.043,237.675,142.037c3.755,6.336,10.453,9.557,17.536,9.557c2.155,0,4.309-0.299,6.464-0.875    c9.237-2.539,15.68-11.947,15.68-21.547C512.475,418.636,507.141,380.385,496.197,343.5z"/>
     </svg>`,
 

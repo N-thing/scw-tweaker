@@ -6,6 +6,7 @@ class CommentData {
     constructor(CommentElement) {
 
         this.elements = {};
+        this.elements.base = CommentElement;
 
         let rows = CommentElement.querySelector('.v-container > .v-row').children;
         let header = rows[0].children[0].children;

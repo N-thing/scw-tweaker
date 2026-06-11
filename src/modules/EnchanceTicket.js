@@ -34,6 +34,14 @@ class EnchanceTicket extends Module {
 
     applyPage(page) {
         super.applyPage(page);
+
+        // this.updaters[0].active = true;
+
+        // if(this.module.page.section != "ticket-view") {
+        //     this.active = false;
+        //     return;
+        // }
+
         // const { cache } = this;
         // const { ticket } = page.data;
 

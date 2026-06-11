@@ -30,6 +30,7 @@ class Module {
 
     applyPage(page) {
         this.page = page;
+        this.cache = {};
 
         for(const updater of this.updaters) { updater.active = true; }
     }

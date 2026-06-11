@@ -2,10 +2,23 @@
 /* 
             SIZES
 */
+.n0-size-small {
+    font-size: .8rem;
+    line-height: 1.2rem;
+}
+.n0-size-small svg { width: .8rem; height: .8rem; margin: .2rem;}
+.n0-size-small svg path {stroke-width: 2 !important;}
+
 .n0-size-normal {
     font-size: 1rem;
     line-height: 1.2rem;
 }
+
+.n0-size-micro {
+    font-size: .6rem;
+    line-height: 1rem;
+}
+.n0-size-micro svg { width: .7rem; height: .7rem; margin: .15rem;}
 
 
 /* 
@@ -24,23 +37,29 @@
             STATES
 */
 
+/* normal */
 .n0-state-normal {
     background-color: var(--n0-color-gray-light);
     transition: background-color .12s ease-out;
+    --svg-color: rgba(0, 0, 0, 0.66);
 }
 .n0-state-normal:hover {
     background-color: var(--n0-color-base-light);
     transition: none;
+    --svg-color: rgba(0, 0, 0, 1);
 }
 
+/* ready */
 .n0-state-ready {
     background-color: var(--n0-color-base);
     color: var(--n0-color-base-black);
     transition: background-color .12s ease-out;
+    --svg-color: rgba(0, 0, 0, 0.66);
 }
 .n0-state-ready:hover {
     background-color: var(--n0-color-base-light);
     transition: none;
+    --svg-color: rgba(0, 0, 0, 1);
 }
 
 .n0-state-error {

@@ -50,6 +50,7 @@ export const ElementSize = Object.freeze({
  * @property {ElementSize} [size]
  * @property {ElementState} [state]
  * @property {ElementStyle} [style]
+ * @property {Boolean} [outlined]
  */
 
 class UIElement {
@@ -78,6 +79,7 @@ class UIElement {
             this.setState(this.options.state);
             this.setSize(this.options.size);
             this.setStyle(this.options.style);
+            this.setOutline(this.options.outlined);
             this.element.n0class = this;
         }
         return this.element;
@@ -94,6 +96,16 @@ class UIElement {
         this.options.size = value;
         if(!this.element) return;
         switchClassWithPrefix(this.element, 'n0-size-', value);
+    }
+    
+    /**
+     * @param {Boolean} value 
+     */
+    setOutline(value) {
+        this.options.outlined = value;
+        if(!this.element) return;
+        if(value) this.element.classList.add('outlined');
+        else this.element.classList.remove('outlined');
     }
 
     /**
