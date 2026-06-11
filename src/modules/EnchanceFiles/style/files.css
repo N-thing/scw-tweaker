@@ -1,0 +1,89 @@
+.n0-comment {}
+
+.n0-comment-files {
+    
+}
+
+.n0-comment .n0-files-enchanced .media {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@scope(.n0-files-enchanced .media) {
+
+    .n0-file {
+        height: 9rem;
+        min-width: 6rem;
+        max-width: 12rem;
+        /* height: 8rem;
+        width: 7.7rem; */
+    }
+
+    .content {
+        height: 100%;
+        width: 100%;
+        padding: .5rem;
+    }
+
+    .content-wrapper {
+        pointer-events: none;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0,0,0, .1);
+        border-radius: .2rem;
+        transition: background-color .08s ease-out, transform .08s ease-out;
+    }
+    .n0-file.video .content-wrapper { background-color: rgba(0,0,0, 1); }
+    .content:hover .content-wrapper {
+        background-color: var(--n0-color-base);
+        /* transform: scale(1.1); */
+    }
+
+    .content img {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: cover;
+        object-position: center;
+        border: 1px solid rgba(0,0,0, .1);
+        border-radius: .2rem;
+        transition: opacity .08s ease-out;
+    }
+    .content:hover img {
+        opacity: .7;
+    }
+
+    .content .icon {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .content .icon svg path {
+        fill: white !important;
+    }
+
+    .content .file-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        position: absolute;
+        bottom: .2rem;
+        padding: 0 0.5rem;
+        max-width: calc(100% - .4rem);
+        font-size: .6rem;
+        line-height: 1rem;
+        white-space: nowrap;
+        background-color: rgba(0,0,0, .6);
+        color: white;
+        border-radius: 2rem;
+        transition: opacity .08s ease-out, bottom .08s ease-out;
+    }
+    .content:hover .file-name {
+        opacity: 0;
+        bottom: -.2rem;
+    }
+
+}
