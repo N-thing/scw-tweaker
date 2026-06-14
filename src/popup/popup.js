@@ -25,7 +25,6 @@ window.addEventListener('DOMContentLoaded', () => {
         });
 
         button.addEventListener('click', async () => {
-            label.innerText = button.checked;
             await module.configs.setValue('enabled', button.checked);
         });
         
