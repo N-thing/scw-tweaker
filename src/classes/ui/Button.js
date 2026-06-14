@@ -19,7 +19,9 @@ class Button extends UIElement {
     createElement() {
         super.createElement();
         this.element = createElement('button', 'n0-button', null, this.name);
-        this.element.addEventListener('click', this.action);
+        this.element.addEventListener('click', () => {
+            this.action();
+        });
         for(const name of this.classNames) {
             this.element.classList.add(name);
         }

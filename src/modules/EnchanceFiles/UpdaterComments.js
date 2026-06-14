@@ -22,7 +22,10 @@ class UpdaterComments extends ModuleUpdater {
 
                 // Определение блока массива комментов
                 const card = cardTitle.parentElement;
-                if(!cache.comments) cache.comments = card.querySelector('.v-card-text').children[0].querySelector('.v-row:not(.v-row--dense)');
+                if(!cache.comments) {
+                    card.classList.add('n0-history');
+                    cache.comments = card.querySelector('.v-card-text').children[0].querySelector('.v-row:not(.v-row--dense)');
+                }
                 cache.comments.classList.add('n0-comments');
                 
                 // Массив комментов
@@ -33,8 +36,9 @@ class UpdaterComments extends ModuleUpdater {
                     let commentData = new CommentData(rawComments[i]);
                     let comment = new UIComment(this.module, commentData);
 
-                    comment.enchance();
+                    comment.enchanceText();
                     comment.enchanceFiles();
+                    comment.enchance();
                 }
 
             }

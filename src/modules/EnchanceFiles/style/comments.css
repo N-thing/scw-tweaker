@@ -1,16 +1,25 @@
+.v-row.n0-comments {
+    /* background-color: rgb(232, 232, 232); */
+    border-radius: 1rem;
+}
+
 .n0-comment.enchance {
 }
 
 @scope(.n0-comment.enchance) {
 
     :scope > .v-card {
-        margin: 2px;
-        padding: .2rem;
-        background-color: rgba(0,0,0, .05);
+        padding: .5rem;
+        background-color: white;
+        /* border: 1px solid rgba(0,0,0, .1); */
+        border-left: .5rem solid #8a0a82;
+        border-radius: .5rem;
+        box-shadow: 0 .05rem .2rem rgba(0,0,0, .3);
     }
 
     .comment-header {
         padding: 0 !important;
+        padding-bottom: .8rem !important;
     }
 
     .comment-header > .v-row {
@@ -20,18 +29,146 @@
 
     .comment-title {
         display: none;
+        position: absolute;
+        opacity: .1;
+        top: -1.5rem;
     }
 
     .comment-author {
-        margin: .5rem 0 !important;
-        padding: 0;
+        margin: 0 !important;
+        /* margin-bottom: .2rem !important; */
+        padding: 0 !important;
+        flex: 1;
+        overflow: hidden;
+        padding-right: 1rem !important;
+    }
+
+    .comment-author .v-chip__content,
+    .comment-author .v-chip__content > .v-row { width: 100% !important; }
+
+    .comment-author .v-chip__content b {
+        display: inline-block;
+        width: 100%;
+        white-space: nowrap;  
+        overflow: hidden; 
+        text-overflow: ellipsis;
+        margin-top: .2rem;
     }
 
     .comment-date {
         font-size: 1rem;
         padding-right: 1rem !important;
+        margin-bottom: .3rem;
     }
 
     .v-col:has(:scope > svg) {display: none;}
+
+    .comment-text {
+        padding: 0 .5rem !important;
+        padding-bottom: .5rem !important;
+    }
+
+    .comment-text .btn-ticket {
+        padding: .1rem .3rem;
+        cursor: pointer;
+        border-radius: .2rem;
+    }
+
+    .comment-text span {
+        color: black !important;
+    }
+
+}
+
+.n0-comment.system {
+    /* padding: 0; */
+    /* padding-top: 0; */
+    /* border-bottom: 1px solid rgba(0,0,0, .12); */
+}
+
+/* @scope(.n0-comment.system + .n0-comment.system) {
+
+    :scope > .v-card::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        top: -1rem;
+        border-top: 1px solid rgba(0,0,0, .1);
+    }
+
+} */
+
+@scope(.n0-comment.system) {
+
+    /* :scope:first-child > .v-card::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        top: -1rem;
+        border-top: 1px solid rgba(0,0,0, .1);
+    } */
+
+    :scope > .v-card {
+        border: none;
+        box-shadow: none;
+        /* border-radius: 0; */
+        padding-left: 0;
+        padding-right: 0;
+        padding: 0;
+        transition: opacity .12s ease-out;
+        background-color: rgba(0,0,0, .06);
+    }
+
+    .comment-header {
+        /* opacity: .5; */
+        padding: 0;
+        margin: 0;
+        margin-top: .2rem;
+        margin-bottom: -1rem;
+    }
+
+    .comment-author {
+        /* opacity: .5; */
+        /* padding: 0; */
+        /* margin: 0; */
+        /* padding-top: .5rem; */
+    }
+
+    .comment-author .v-chip__underlay {
+        background: none;
+    }
+
+    .comment-text {
+        padding: .7rem !important;
+    }
+
+    .comment-header .type {
+        background-color: white;
+        padding: .1rem .6rem;
+        margin-left: .5rem;
+        margin-right: -.5rem;
+        border-radius: 2rem;
+        text-transform: uppercase;
+        /* background-color: rgba(0,0,0, .1); */
+        /* font-weight: bold; */
+        /* color: #555555 !important; */
+        /* box-shadow: 0 .05rem .2rem rgba(0,0,0, .12); */
+    }
+
+    .comment-text .type {
+        background-color: white;
+        padding: .2rem .3rem;
+        border-radius: .2rem;
+        margin-left: -.3rem;
+        text-transform: uppercase;
+        cursor: pointer;
+        /* background-color: rgba(0,0,0, .1); */
+        /* font-weight: bold; */
+        /* color: #555555 !important; */
+        /* box-shadow: 0 .05rem .2rem rgba(0,0,0, .12); */
+    }
+
+    .comment-text .type.highlight { background-color: var(--n0-color-base); }
+    .comment-text .type:hover { background-color: var(--n0-color-base-light); }
 
 }

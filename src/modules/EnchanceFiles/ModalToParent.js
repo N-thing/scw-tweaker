@@ -15,7 +15,6 @@ class ModalToParent extends ModalAction {
         this.file = file;
         this.ticketId = ticket.id;
 
-
         // Content
         let inputComment = new InputText('КОММЕНТАРИЙ');
         this.content.addElement(inputComment);
@@ -90,8 +89,7 @@ class ModalToParent extends ModalAction {
         let prefix = this.elements.inputPrefix.value;
         if(prefix != "") fileName = `${prefix} - ${fileName}`;
 
-        let url = this.file.url.replace('https://', `https://n-thing.net/cors/`);
-        let blob = await getFileBlob(url);
+        let blob = await this.file.getBlob();
         if(blob == null) {
             this.elements.buttonAction.setState("ERROR");
             return;

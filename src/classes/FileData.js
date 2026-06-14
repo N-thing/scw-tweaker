@@ -1,4 +1,6 @@
-import { loadImageAsync, loadVideoMetaAsync, log } from "../utils";
+import Core from "../core";
+import { getFileBlob } from "../scw";
+import { getAnyCors, getVideoFirstFrame, loadImageAsync, loadVideoMetaAsync, log } from "../utils";
 
 const MIME_TYPES = {
   'html':   'text/html',
@@ -36,9 +38,10 @@ class FileData {
         if(!this.size) {
 
             let element = {};
+            let url = await this.getBlobUrl();
 
-            if(this.type == 'image') element = await loadImageAsync(this.url);
-            else if(this.type == 'video') element = await loadVideoMetaAsync(this.url);
+            if(this.type == 'image') element = await loadImageAsync(url, false);
+            else if(this.type == 'video') element = await loadVideoMetaAsync(url, false);
 
             this.size = {
                 width: element.videoWidth ?? element.width ?? 0,
@@ -47,10 +50,36 @@ class FileData {
 
         }
         return this.size;
-    } 
+    }
+    
+    async getBlob() {
+        if(this.blob == undefined) this.blob = await getFileBlob(getAnyCors(this.url));
+        return this.blob;
+    }
 
-    save() {
+    async getBlobUrl() {
+        if(!this.urlBlob) {
+            let blob = await this.getBlob();
+            if(blob) {
+                this.urlBlob = URL.createObjectURL(blob);
+                Core.page.urlBlobs.push(this.urlBlob);
+            }
+            else this.urlBlob = this.url;
+        }
+        return this.urlBlob;
+    }
 
+    async getPreviewUrl() {
+        if(!this.previewUrl) {
+            if(this.type == 'image') {
+                this.previewUrl = this.url;
+            } else if(this.type == 'video') {
+                let blobUrl = await this.getBlobUrl();
+                let frame = await getVideoFirstFrame(blobUrl);
+                this.previewUrl = frame;
+            }
+        }
+        return this.previewUrl;
     }
 }
 

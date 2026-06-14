@@ -1,6 +1,7 @@
 import Ticket from './classes/Ticket.js';
 import Core from './core.js';
 import {log} from './utils.js';
+import { openDB } from 'idb';
 
 function getUserToken() { return localStorage.getItem('accessToken'); }
 function getUserId() { return localStorage.getItem('userId'); }
@@ -135,6 +136,17 @@ export function getCurrentFilter() {
     return filters;
 }
 
+export async function getTicketIdByNumber(number) {
+    number = parseInt(number);
+    const ticketRow = await Core.db.get('tickets-id-cache', number);
+    if(ticketRow) return ticketRow.id;
+
+    const ticket = await getTicketByNumber(number);
+    if(ticket) return ticket.id;
+
+    return null;
+}
+
 export async function getTicketsList(_filter, _limit, _page, _order) {
     const body = JSON.stringify(_filter) || "{}";
     const page = _page || 1;
@@ -149,11 +161,21 @@ export async function getTicketsList(_filter, _limit, _page, _order) {
 }
 
 export async function getTicketByNumber(number) {
+
+    const ticketRow = await Core.db.get('tickets-id-cache', number);
+    if(ticketRow) return await getTicketById(ticketRow.id);
+
     let tickets = (await getTicketsList({search: number}, 100, 1, 'number')).results;
-    if(tickets.length == 1) return new Ticket(tickets[0]);
+
+    if(tickets.length == 1) {
+        return new Ticket(tickets[0]);
+    }
+
     if(tickets.length > 1) {
         for(const ticket of tickets) {
-            if(ticket.number == number) return new Ticket(ticket);
+            if(ticket.number == number) {
+                return new Ticket(ticket);
+            }
         }
     }
     return null;
@@ -175,13 +197,17 @@ export async function getWorkers(name) {
 }
 
 export async function getFileBlob(url) {
-    const response = await fetch(url);
-    if (!response.ok) {
-        log(`Ошибка загрузки файла: ${response.statusText}`);
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            log(`Ошибка загрузки файла: ${response.statusText}`);
+            return null;
+        }
+        const fileBlob = await response.blob();
+        return fileBlob;
+    } catch(e) {
         return null;
     }
-    const fileBlob = await response.blob();
-    return fileBlob;
 }
 
 //=============================

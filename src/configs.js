@@ -8,7 +8,9 @@ export let modules = [
 
 export let configs = {
     debug: false,
-    intervalFreq: 200
+    intervalFreq: 200,
+    dbName: 'scw-tweaker',
+    dbVersion: 4,
 };
 
 export default configs;

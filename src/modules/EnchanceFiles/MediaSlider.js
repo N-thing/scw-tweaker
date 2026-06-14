@@ -1,9 +1,9 @@
 import Button from "../../classes/ui/Button.js";
 import Core from "../../core.js";
 import icons from "../../icons.js";
-import { createElement, getAnyCors, log, saveWithName } from "../../utils.js";
+import { createElement, getAnyCors, log, resetAnimation, saveWithName } from "../../utils.js";
 
-class ImageSlider {
+class MediaSlider {
     constructor() {
         this.elements = {};
         this.list = [];
@@ -20,10 +20,10 @@ class ImageSlider {
         this.elements.name =  createElement('div', 'n0-ef-slider-name', this.elements.header);
         this.elements.actions =  createElement('div', 'n0-ef-slider-actions', this.elements.header);
         
-        this.btnDownload = new Button(`${icons.download} загрузить`, {size: "NORMAL", state: "READY", style: "BUBBLE"}, async e => {
+        this.btnDownload = new Button(`${icons.download} загрузить`, {size: "SMALL", state: "READY", style: "BUBBLE"}, async e => {
             this.btnDownload.setState("WAITING");
             let file = this.list[this.current];
-            let success = await saveWithName(file.url, file.name);
+            let success = await saveWithName(file);
             if(success) this.btnDownload.setState("READY");
             else this.btnDownload.setState("ERROR");
         }, ['download']);
@@ -72,7 +72,7 @@ class ImageSlider {
         return this.elements.base;
     }
 
-    setList(list, current) {
+    async setList(list, current) {
         this.clear();
         this.list = list;
         this.loaded = 0;
@@ -106,7 +106,7 @@ class ImageSlider {
                     if(this.loaded == this.list.length) this.change(current);
                 }
 
-                prevImage.src = list[i].url;
+                prevImage.src = await list[i].getPreviewUrl();
 
             } else if(list[i].type == "video") {
 
@@ -124,6 +124,8 @@ class ImageSlider {
                     
                     if(this.loaded == this.list.length) this.change(current);
                 });
+
+                prevImage.src = await list[i].getPreviewUrl();
 
             }
         }
@@ -174,6 +176,7 @@ class ImageSlider {
     }
 
     open() {
+        resetAnimation(this.elements.base);
         this.elements.base.classList.add('open');
         this.isOpen = true;
     }
@@ -182,6 +185,10 @@ class ImageSlider {
         this.clear();
         this.elements.base.classList.remove('open');
         this.isOpen = false;
+        setTimeout(() => {
+            this.elements.base.remove();
+            delete this;
+        }, 1000);
     }
 
     clear() {
@@ -189,6 +196,9 @@ class ImageSlider {
             if(this.list[i].a) {
                 this.list[i].a.classList.remove('n0-ef-lookup');
                 this.list[i].a.classList.remove('n0-waiting');
+            }
+            if(this.list[i].type == "video") {
+                this.elements.images.children[i].pause();
             }
         }
     }
@@ -206,4 +216,4 @@ class ImageSlider {
     }
 }
 
-export default ImageSlider;
+export default MediaSlider;

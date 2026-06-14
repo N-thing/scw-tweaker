@@ -4,11 +4,11 @@
     
 }
 
-.n0-comment .n0-files-enchanced {
+.n0-files-enchanced {
     width: 100%;
 }
 
-.n0-comment .n0-files-enchanced .media {
+.n0-files-enchanced .media {
     display: flex;
     flex-wrap: wrap;
 }
@@ -20,19 +20,19 @@
         flex-direction: column;
         align-items: center;
         position: relative;
-        height: 7.5rem;
+        height: 9rem;
         min-width: 5.5rem;
-        max-width: 12.5rem;
+        max-width: 50%;
         cursor: pointer;
         /* height: 8rem;
         width: 7.7rem; */
     }
-    .n0-file.video { width: 6rem; }
+    /* .n0-file.video { width: 6rem; } */
 
     .content {
         height: 100%;
         width: 100%;
-        padding: .5rem;
+        padding: .33rem;
     }
 
     .content-wrapper {
@@ -48,11 +48,12 @@
         border-radius: .2rem;
         transition: background-color .08s ease-out, transform .08s ease-out;
     }
-    .n0-file.video .content-wrapper { background-color: rgba(0,0,0, 1); }
+    /* .n0-file.video .content-wrapper { background-color: rgba(0,0,0, 1); } */
     .n0-file:hover .content-wrapper {
         background-color: var(--n0-color-base);
         /* transform: scale(1.1); */
     }
+    .n0-file.n0-state-waiting .content-wrapper { opacity: .25; }
 
     .content img {
         max-height: 100%;
@@ -63,10 +64,7 @@
         border-radius: .2rem;
         transition: opacity .08s ease-out, transform .08s ease-out;
     }
-    .n0-file:hover img { 
-        opacity: .66; 
-        /* transform: scale(1.2); */
-    }
+    .n0-file:hover img { opacity: .66;  }
 
     .content .icon {
         width: 2rem;
@@ -116,11 +114,15 @@
 
 }
 
-.n0-comment .n0-files-enchanced .other {
+.n0-files-enchanced .other {
     width: 100%;
     background-color: rgba(0,0,0, .1);
     border-radius: .4rem;
     overflow: hidden;
+    margin-top: .5rem;
+}
+.n0-files-enchanced .other:empty {
+    display: none;
 }
 
 @scope(.n0-files-enchanced .other) {
@@ -166,6 +168,18 @@
         border-radius: .2rem;
         margin-right: .3rem;
     }
+    .extension:has(svg) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        min-width: 1.3rem;
+    }
+    .extension svg {
+        height: 1.3rem;
+        width: .8rem;
+    }
+    .extension svg path { stroke-width: 2; }
 
     .file-name {
         overflow: hidden; /* обрезает текст, который выходит за границы */
@@ -180,7 +194,7 @@
         transition: max-width .08s ease-out;
     }
     .n0-file:hover .actions {
-        max-width: 20%;
+        max-width: 30%;
     }
 
     .actions .n0-button {

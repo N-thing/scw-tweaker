@@ -1,12 +1,17 @@
 import { getTicketById } from './scw.js'
 import CommentElement from './classes/CommentElement.js';
 import FileElement from './classes/FileElement.js';
-import { createElement, getCurrentTicketId, log } from './utils.js';
+import { createElement, getUuidFromUrl, log } from './utils.js';
 import configs from './configs.js';
 import Notifier from './classes/ui/notifier.js';
 import Button from './classes/ui/Button.js';
+import { openDB } from 'idb';
 
 class Core {
+
+    static db;
+    static page = {};
+    static pagePrev = {};
 
     constructor() {
         this.modules = [];
@@ -15,7 +20,15 @@ class Core {
         window.n0intervals = {};
     }
 
-    init() {
+    async init() {
+
+        Core.db = await openDB(configs.dbName, configs.dbVersion, {
+            upgrade(db) { 
+                if (!db.objectStoreNames.contains('tickets-id-cache')) {
+                    db.createObjectStore('tickets-id-cache', { keyPath: 'number' });
+                }
+            },
+        });
 
         let n0 = {
             getStorage: async () => {
@@ -72,6 +85,7 @@ class Core {
         // update
         clearInterval(window.coreInterval);
         window.coreInterval = setInterval(() => {
+            if(Core.page == {}) return;
             for(const module of this.modules) {
                 if(!module.configs.getValue('enabled')) continue;
                 module.onUpdate();
@@ -85,12 +99,19 @@ class Core {
     }
 
     async updateUrl() {
-        let page = await this.getPageData();
+        if(Core.page != {} && Core.page.urlBlobs) {
+            for(const urlBlob of Core.page.urlBlobs) {
+                URL.revokeObjectURL(urlBlob);
+            }
+        }
+
+        Core.pagePrev = Core.page;
+        Core.page = await this.getPageData();
 
         // смена странички для всего остального
         for(const module of this.modules) {
             if(!module.configs.getValue('enabled')) continue;
-            module.applyPage(page);
+            module.applyPage(Core.page);
         }
     }
 
@@ -103,13 +124,19 @@ class Core {
         switch(`${path[0]}/${path[1]}/${path[2]}`) {
             case 'home/tickets/view':
                 section = 'ticket-view';
-                data.ticket = await getTicketById(getCurrentTicketId());
+                data.ticket = await getTicketById(getUuidFromUrl());
+                break;
+            case 'home/tickets/create':
+                section = 'ticket-create';
+                data.ticket = await getTicketById(getUuidFromUrl(2));
+                break;
         }
 
         let page = {
             path: path,
             section: section,
-            data: data
+            data: data,
+            urlBlobs: [],
         };
 
         return page;

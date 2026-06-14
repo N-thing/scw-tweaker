@@ -1,5 +1,9 @@
 import InputTextAction from "../../classes/ui/InputTextAction";
 import { getTicketByNumber } from "../../scw";
+import { openDB } from 'idb';
+import configs from "../../configs";
+import Core from "../../core";
+import { log } from "../../utils";
 
 class InputTicketFinder extends InputTextAction {
     constructor(module, name, button, options) {
@@ -28,21 +32,19 @@ class InputTicketFinder extends InputTextAction {
 
     async onAction() {
         const {module} = this;
+        const number = parseInt(this.value.trim());
 
-        let cache = module.configs.getValue('ticket_cache');
-        let number = this.value.trim();
-
-        if(cache[number]) {
-            window.open(`https://z.service-company.biz/#/home/tickets/view/${cache[number]}`, '_blank');
+        let ticket = await Core.db.get('tickets-id-cache', number);
+        log(ticket);
+        if(ticket) {
+            window.open(`https://z.service-company.biz/#/home/tickets/view/${ticket.id}`, '_blank');
             return;
         }
 
         this.setState("WAITING");
-        let ticket = await getTicketByNumber(number);
+        ticket = await getTicketByNumber(number);
         if(ticket) {
-            cache[number] = ticket.id;
             window.open(`https://z.service-company.biz/#/home/tickets/view/${ticket.id}`, '_blank');
-            await module.configs.setValue('ticket_cache', cache);
             this.setState("NORMAL");
         } else {
             this.setState("ERROR", 3);

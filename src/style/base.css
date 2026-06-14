@@ -25,4 +25,20 @@ body > .v-overlay-container {
 .v-application {
     background-color: #cdcdd3 !important;
 }
-.v-card--variant-elevated.ma-2 {background: rgba(255, 255, 255, .75);}
+
+.v-card--variant-elevated.ma-2 {background: rgb(255, 255, 255);}
+
+.v-navigation-drawer .v-badge {
+    margin-right: 32px;
+}
+.v-navigation-drawer .v-badge svg {
+    margin: 0 !important;
+}
+.v-navigation-drawer .v-badge span {
+    position: absolute;
+    right: -12px;
+    bottom: -12px !important;
+    left: auto !important;
+    font-size: .7rem !important;
+    height: 1.15rem !important;
+}

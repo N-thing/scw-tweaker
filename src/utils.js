@@ -18,10 +18,13 @@ export function createElement(type, className, parent, inner) {
 /**
  * @returns {string}
  */
-export function getCurrentTicketId() {
-    let reg = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
-    let uuid = window.location.href.match(reg);
-    if(uuid != null) return uuid[0];
+export function getUuidFromUrl(index = 0) {
+    let reg = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/g;
+    let uuid = [...window.location.href.matchAll(reg)];
+    if(uuid != null) {
+        if(uuid[index]) return uuid[index][0]
+        else return null;
+    }
     return null;
 }
 
@@ -60,11 +63,22 @@ export function resetAnimation(element) {
     void element.offsetWidth;
 }
 
-
-export async function saveWithName(url, name) {
-    
+export async function openFile(fileData) {
+    let url = fileData.url;
     let blob = await getFileBlob(getAnyCors(url));
-    if(blob != null) url = URL.createObjectURL(blob);
+
+    if(blob != null) {
+        const namedFile = new File([blob], fileData.name, { type: fileData.mimeType });
+        url = URL.createObjectURL(namedFile);
+    } 
+
+    window.open(url, "_blank");
+    return true;
+}
+
+export async function saveWithName(fileData) {
+    const {name} = fileData;
+    let url = await fileData.getBlobUrl();
 
     const a = document.createElement('a');
     a.href = url;
@@ -73,13 +87,12 @@ export async function saveWithName(url, name) {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url);
 
     return true;
 }
 
 export function getAnyCors(url) {
-    return url.replace('https://', 'https://n-thing.net/cors/');
+    return url.replace('https://', 'https://109.194.162.15:8888/');
 }
 
 export function loadImageAsync(url) {
@@ -102,4 +115,28 @@ export function loadVideoMetaAsync(url) {
         
         video.src = url;
     });
+}
+
+export async function getVideoFirstFrame(url) {
+
+    return new Promise(async (resolve, reject) => {
+        const video = document.createElement('video');
+        video.src = url;
+        // video.crossOrigin = 'anonymous'; // Предотвращает ошибку CORS при сохранении
+        video.muted = true;             
+        video.playsInline = true;
+
+        video.addEventListener('loadeddata', () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const base64Image = canvas.toDataURL('image/jpeg');
+            resolve(base64Image);
+        });
+
+        video.addEventListener('error', (e) => reject(new Error(`Не удалось загрузить видос: ${e}`)));
+    });
+    
 }
