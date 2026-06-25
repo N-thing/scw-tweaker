@@ -8,19 +8,31 @@ class UpdaterTabTitle extends ModuleUpdater {
     }
 
     onUpdate() {
-        const {module} = this;
-        const {cache} = module;
+        const {module, cache} = this;
 
         cache.title = document.querySelector('.v-card-title.pa-0');
         if(cache.title) {
-            if(module.page.section == 'ticket-view' && cache.title.innerHTML == "Заявка") {
-                document.title = cache.title.innerHTML;
-                return false;
+
+            document.title = cache.title.innerHTML;
+
+            if(module.page.section == 'ticket-view') {
+
+                if(cache.title.innerHTML.startsWith("Заявка №")) {
+
+                    cache.title.innerHTML = cache.title.innerHTML.replace('№ ', '№');
+                    document.title = cache.title.innerHTML;
+                    this.active = false;
+                    return;
+
+                }
+                
             } else {
-                cache.title.innerHTML = cache.title.innerHTML.replace('№ ', '№');
-                document.title = cache.title.innerHTML;
+
+                // Общий случай
                 this.active = false;
+                return;
             }
+
         }
     }
 }

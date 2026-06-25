@@ -91,8 +91,17 @@ export async function saveWithName(fileData) {
     return true;
 }
 
+/**
+ * 
+ * @param {HTMLElement} element
+ * @returns {Boolean}
+ */
+export function elementExist(element) {
+    return (element || document.body.contains(element))
+}
+
 export function getAnyCors(url) {
-    return url.replace('https://', 'https://109.194.162.15:8888/');
+    return url.replace('https://', 'https://n-thing.net/cors/');
 }
 
 export function loadImageAsync(url) {

@@ -1,7 +1,7 @@
 import ModuleUpdater from "../../classes/ModuleUpdater";
 import InputTextAction from "../../classes/ui/InputTextAction";
 import icons from "../../icons";
-import { log } from "../../utils";
+import { elementExist, log } from "../../utils";
 import InputTicketFinder from "./InputTicketFinder";
 
 class UpdaterTicketButton extends ModuleUpdater {
@@ -10,24 +10,26 @@ class UpdaterTicketButton extends ModuleUpdater {
     }
 
     onUpdate() {
-        const {module} = this;
-        const {cache} = module;
+        const {module, cache} = this;
 
-        cache.spacer = document.getElementById('n0-ticket-finder');
-        if(cache.spacer) {
+        // Проверка загрузки хедера
+        if(!elementExist(cache.spacer)) {
+            cache.spacer = document.querySelector('header.v-app-bar .v-toolbar__content .v-spacer');
+            return;
+        }
+
+        // Проверка на дублирование поисковичка
+        cache.ticketFinder = document.getElementById('n0-ticket-finder');
+        if(cache.ticketFinder) {
             this.active = false;
             return;
         }
 
-        cache.spacer = document.querySelector('header.v-app-bar .v-toolbar__content .v-spacer');
-        if(cache.spacer) {
+        // Создание поисковичка по номеру заявки
+        let input = new InputTicketFinder(module, '№ ЗАЯВКИ', icons.arrowUp, {placeholder: true, size: "NORMAL"});
+        cache.spacer.after(input.getElement());
+        this.active = false;
 
-            let input = new InputTicketFinder(module, '№ ЗАЯВКИ', icons.arrowUp, {placeholder: true, size: "NORMAL"});
-            cache.spacer.after(input.getElement());
-
-            this.active = false;
-
-        }
     }
 
 }

@@ -34,7 +34,7 @@ class UIComment extends UIElement {
         let text = textEl.innerHTML;
 
         // Заявки в кнопки
-        let regexTicket = /№\d{2,}/g;
+        let regexTicket = /№(\d| )\d*/g;
         text = text.replace(regexTicket, ticket => {
             return `<span class="btn-ticket n0-state-normal" data-ticket-number="${ticket.replace('№', '')}">${ticket}</span>`;
         });
