@@ -18,7 +18,7 @@ function generateManifest() {
       "48": "logo/logo_48.png",
       "128": "logo/logo_128.png"
     },
-    version: '0.2.1',
+    version: '0.2.2',
     action: {
       default_popup: 'src/popup/popup.html',
       default_icon: {
@@ -88,7 +88,8 @@ export default defineConfig(() => {
           profileCreateIfMissing: true,
           keepProfileChanges: true,
           startUrl: ['https://z.service-company.biz/#/home/tickets/view/1b097aa4-20e6-4b15-ba94-98a830caf62b/?ticketsSection&page=1']
-        }
+        },
+        skipManifestValidation: true
       }),
     ],
   }
