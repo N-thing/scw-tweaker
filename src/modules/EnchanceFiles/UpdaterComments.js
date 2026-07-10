@@ -1,5 +1,5 @@
 import ModuleUpdater from "../../classes/ModuleUpdater";
-import { log } from "../../utils";
+import { elementExist, log } from "../../utils";
 import CommentData from "./CommentData";
 import UIComment from "./UIComment";
 
@@ -12,7 +12,7 @@ class UpdaterComments extends ModuleUpdater {
     onUpdate() {
         if(this.module.page.section != "ticket-view") return;
         
-        const {cache} = this.module;
+        const {cache} = this;
         const {ticket} = this.module.page.data;
 
         cache.cardTitles = document.querySelectorAll('.v-card--flat > .v-card-title:not(.loaded)');
@@ -22,7 +22,7 @@ class UpdaterComments extends ModuleUpdater {
 
                 // Определение блока массива комментов
                 const card = cardTitle.parentElement;
-                if(!cache.comments) {
+                if(!elementExist(cache.comments)) {
                     card.classList.add('n0-history');
                     cache.comments = card.querySelector('.v-card-text').children[0].querySelector('.v-row:not(.v-row--dense)');
                 }

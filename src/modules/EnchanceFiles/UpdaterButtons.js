@@ -7,7 +7,7 @@ class UpdaterButtons extends ModuleUpdater {
     onUpdate() {
         const {cache} = this.module;
         if(!cache.header) { 
-            cache.header = document.getElementById('floatMenu');
+            cache.header = document.getElementById('productionFloatMenu');
         } else {
             cache.headerButtons = cache.header.querySelectorAll('button span.v-btn__content:not(.buttoned)');
             for(const button of cache.headerButtons) {

@@ -97,7 +97,7 @@ export async function saveWithName(fileData) {
  * @returns {Boolean}
  */
 export function elementExist(element) {
-    return (element || document.body.contains(element))
+    return (element && document.body.contains(element))
 }
 
 export function getAnyCors(url) {

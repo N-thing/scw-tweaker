@@ -62,7 +62,7 @@ class Core {
         // инциализация модулей
         for(const module of this.modules) module.init(this);
 
-        // Определение события смены странички
+        // Определение события смены или обновления странички
         let lastHash = window.location.hash;
         setInterval(() => {
             if (window.location.hash !== lastHash) {
@@ -76,11 +76,21 @@ class Core {
                 lastHash = window.location.hash;
 
             }
+
+            let lSection = document.querySelector('.l-section');
+            if(lSection && lSection.lastRow != lSection.children[0]) {
+                lSection.lastRow = lSection.children[0];
+                window.dispatchEvent(new CustomEvent('appupdate', {
+                    bubbles: false,
+                }));
+            }
+
         }, 250);
 
         // Определение страницы
-        this.updateUrl();
-        window.addEventListener('urlchange', () => this.updateUrl());
+        this.updateApp();
+        window.addEventListener('appupdate', () => this.updateApp());
+        window.addEventListener('urlchange', () => this.updateApp());
 
         // update
         clearInterval(window.coreInterval);
@@ -98,7 +108,7 @@ class Core {
         this.modules.push(module);
     }
 
-    async updateUrl() {
+    async updateApp() {
         if(Core.page != {} && Core.page.urlBlobs) {
             for(const urlBlob of Core.page.urlBlobs) {
                 URL.revokeObjectURL(urlBlob);

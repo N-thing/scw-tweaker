@@ -10,21 +10,27 @@ class UpdaterFiles extends ModuleUpdater {
     }
 
     onUpdate() {
-        if(Core.page.section != "ticket-view") return;
-        
-        const {cache} = this.module;
+        if(
+            Core.page.section != "ticket-view" ||
+            document.querySelector('.n0-card-files')
+        ) {
+            this.active = false;
+            return;
+        }
+
+        const {cache} = this;
         const {ticket} = Core.page.data;
 
-        cache.cardTitles = document.querySelectorAll('.v-card--flat > .v-card-title:not(.loaded)');
+        cache.cardTitles = document.querySelectorAll('.v-card--flat > .v-card-title');
         for(const cardTitle of cache.cardTitles) {
 
             if(cardTitle.innerHTML == "Файлы") {
-                cardTitle.classList.add('loaded');
-                this.active = false;
 
                 const filesEl = cardTitle.parentElement.querySelector(':scope > .v-card-text');
                 enchanceFiles(this.module, filesEl);
 
+                cardTitle.parentElement.classList.add('n0-card-files');
+                this.active = false;
             }
 
         }

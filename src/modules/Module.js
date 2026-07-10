@@ -32,7 +32,9 @@ class Module {
         this.page = page;
         this.cache = {};
 
-        for(const updater of this.updaters) { updater.active = true; }
+        for(const updater of this.updaters) { 
+            updater.active = true; 
+        }
     }
     interval() {}
 
