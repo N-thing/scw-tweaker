@@ -43,7 +43,13 @@
     transition: background-color .12s ease-out;
     --svg-color: rgba(0, 0, 0, 0.66);
 }
-.n0-state-normal:hover {
+.n0-state-normaltransparent {
+    background-color: transparent;
+    transition: background-color .12s ease-out;
+    --svg-color: rgba(0, 0, 0, 0.66);
+}
+.n0-state-normal:hover,
+.n0-state-normaltransparent:hover {
     background-color: var(--n0-color-base-light);
     transition: none;
     --svg-color: rgba(0, 0, 0, 1);

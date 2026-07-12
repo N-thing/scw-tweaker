@@ -5,6 +5,7 @@ import {switchClassWithPrefix} from '../../utils';
  */
 export const ElementState = Object.freeze({ 
     NORMAL: "NORMAL", 
+    NORMALTRANSPARENT: "NORMALTRANSPARENT", 
     READY: "READY", 
     LOADING: "LODAING", 
     WAITING: "WAITING", 

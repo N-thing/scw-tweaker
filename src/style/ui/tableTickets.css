@@ -1,0 +1,29 @@
+@scope(.n0-table.table-tickets) {
+
+    :scope {
+        font-size: .8rem;
+    }
+    
+    .n0-ticket-number {
+        padding: .19rem .5rem .15rem .5rem;
+        background-color: var(--n0-color-gray-light);
+        border-radius: .25rem;
+    }
+    .n0-ticket-number:hover {
+        background-color: var(--n0-color-base-light);
+    }
+
+    .n0-ticket-stage {
+        display: inline-block;
+        padding: .1rem 0.5rem;
+        border: 2px solid var(--stage-color);
+        border-radius: .8rem;
+        text-wrap: nowrap;
+    }
+
+    .n0-ticket-stage.stage-finish,
+    .n0-ticket-stage.stage-cancel {
+        background-color: var(--stage-color);
+    }
+
+}

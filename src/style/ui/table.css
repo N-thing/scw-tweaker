@@ -1,0 +1,19 @@
+.n0-table {
+    margin: 0;
+    padding: 0;
+}
+
+@scope(.n0-table) {
+
+    thead {
+        background-color: var(--n0-color-gray-light);
+    }
+
+    tbody tr {
+        border-bottom: 1px dashed rgba(0,0,0, .2);
+    }
+
+    td {
+        padding: 0.5rem 1rem;
+    }
+}

@@ -12,7 +12,7 @@ class BaseModule extends Module {
         super(core, 'base_module', 'Базовые преколы');
         this.cache.title = null;
 
-        this.configs.addConfig('ticket_cache', 'Object', {});
+        this.configs.addConfig('current_building', "Object", {name: "", data: {}});
 
         this.addUpdater(new UpdaterTabTitle(this));
         this.addUpdater(new UpdaterTicketButton(this));

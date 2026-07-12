@@ -24,7 +24,7 @@ export async function fetchSCW(url, type, body, extra) {
 }
 
 export async function fetchJson(url, type, body) {
-    return await (await fetchSCW(url, type, body)).json();
+    return structuredClone(await (await fetchSCW(url, type, body)).json());
 }
 
 //=============================
@@ -159,6 +159,34 @@ export async function getTicketsList(_filter, _limit, _page, _order) {
         body
     );
 }
+
+export async function getBuildingsList(search) {
+    const body = JSON.stringify({search: search});
+
+    return fetchJson(
+        'https://api.service-company.biz/zebra_api/post/buildings/',
+        "POST",
+        body
+    );
+}
+
+export async function getPremisesList(building, search) {
+    let url = `https://api.service-company.biz/zebra_api/v2/building/premise/?search=${search}&building__in=${building}&page_size=1000`
+    return fetchJson(
+        url,
+        "GET"
+    );
+}
+
+export async function getTicketsByPremise(id) {
+    let results = await getTicketsList({premise__in: [id]}, 1000);
+    results = structuredClone(results);
+    for(let i=0; i<results.results.length; i++) {
+        results.results[i] = new Ticket(results.results[i]);
+    }
+    return results;
+}
+
 
 export async function getTicketByNumber(number) {
 

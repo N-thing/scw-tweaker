@@ -10,3 +10,15 @@
     }
 
 }
+
+#n0-room-finder {
+    display: flex;
+}
+
+@scope(#n0-room-finder) {
+
+    svg {
+        transform: rotate(90deg);
+    }
+
+}

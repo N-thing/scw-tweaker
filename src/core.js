@@ -37,7 +37,6 @@ class Core {
                 for(const key of keys) {
                     result[key] = (await chrome.storage.local.get(key))[key];
                 }
-                log(result, 'debug');
             },
             clearStorage: async () => {
                 await chrome.storage.local.clear();

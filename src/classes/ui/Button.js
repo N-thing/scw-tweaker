@@ -1,4 +1,4 @@
-import {createElement} from '../../utils';
+import {createElement, log} from '../../utils';
 import UIElement, { ElementStyle } from './UIElement';
 
 class Button extends UIElement {
@@ -12,15 +12,19 @@ class Button extends UIElement {
     constructor(name, options = {}, action = null, classNames = []) {
         super({style: ElementStyle.BUBBLE, ...options})
         this.name = name;
-        this.action = action;
+        this.action = action ?? (() => {});
         this.classNames = classNames;
     }
+
+    onClick() {}
+    action() {}
 
     createElement() {
         super.createElement();
         this.element = createElement('button', 'n0-button', null, this.name);
         this.element.addEventListener('click', () => {
             this.action();
+            this.onClick();
         });
         for(const name of this.classNames) {
             this.element.classList.add(name);

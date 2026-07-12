@@ -2,9 +2,9 @@ import Button from "./Button";
 import InputText from "./InputText";
 
 class InputTextAction extends InputText {
-    constructor(name, button, options) {
+    constructor(name, buttonName, options) {
         super(name, options);
-        this.button = button;
+        this.buttonName = buttonName;
     }
     
     createElement() {
@@ -12,7 +12,7 @@ class InputTextAction extends InputText {
 
         this.element.classList.add('n0-input-text-action');
 
-        let button = new Button(this.button, {state: "READY"}, () => this.onAction(), ['action']);
+        let button = new Button(this.buttonName, {state: "READY"}, () => this.onAction(), ['action']);
         this.element.appendChild(button.getElement());
 
         this.input.addEventListener('keydown', (event) => {

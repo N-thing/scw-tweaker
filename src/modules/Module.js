@@ -55,7 +55,8 @@ export class ModuleConfigs {
         return await this.list[name].setValue(value);
     }
     getValue(name) {
-        return this.list[name].value;
+        if(this.list[name]) return this.list[name].value;
+        else return null;
     }
     getConfig(name) {
         return this.list[name];
