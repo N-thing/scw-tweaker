@@ -3,6 +3,11 @@
     :scope {
         font-size: .8rem;
     }
+
+    thead {
+        position: sticky;  /* Фиксирует заголовок */
+        top: 0px;            /* Привязывает к верху контейнера */
+    }
     
     .n0-ticket-number {
         padding: .19rem .5rem .15rem .5rem;

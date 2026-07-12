@@ -5,7 +5,7 @@
 
 @scope(.n0-table) {
 
-    thead {
+    thead{
         background-color: var(--n0-color-gray-light);
     }
 
@@ -13,7 +13,8 @@
         border-bottom: 1px dashed rgba(0,0,0, .2);
     }
 
-    td {
+    td,
+    th {
         padding: 0.5rem 1rem;
     }
 }

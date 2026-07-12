@@ -19,7 +19,7 @@ export class Table extends UIElement {
         let head = createElement('thead', '', this.element);
         let headtr = createElement('tr', '', head);
         for(const header of this.headers) {
-            createElement('td', '', headtr, header);
+            createElement('th', '', headtr, header);
         }
 
         let body = createElement('tbody', '', this.element);

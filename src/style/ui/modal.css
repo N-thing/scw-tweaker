@@ -66,8 +66,9 @@
     }
 
     .n0-content {
-        padding: var(--margin);
+        margin: var(--margin);
         overflow-y: auto;
+        border-radius: .25rem;
     }
 
     .left,
