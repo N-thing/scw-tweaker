@@ -18,7 +18,7 @@ function generateManifest() {
       "48": "logo/logo_48.png",
       "128": "logo/logo_128.png"
     },
-    version: '0.3.0',
+    version: '0.3.2',
     action: {
       default_popup: 'src/popup/popup.html',
       default_icon: {

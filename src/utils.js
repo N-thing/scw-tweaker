@@ -65,10 +65,11 @@ export function resetAnimation(element) {
 
 export async function openFile(fileData) {
     let url = fileData.url;
-    let blob = await getFileBlob(getAnyCors(url));
+    let blob = await fileData.getBlob();
+    // let blob = await getFileBlob(getAnyCors(url));
 
     if(blob != null) {
-        const namedFile = new File([blob], fileData.name, { type: fileData.mimeType });
+        const namedFile = new File([blob], fileData.name, { type: fileData.mime });
         url = URL.createObjectURL(namedFile);
     } 
 

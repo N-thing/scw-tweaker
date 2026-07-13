@@ -53,7 +53,12 @@ class FileData {
     }
     
     async getBlob() {
-        if(this.blob == undefined) this.blob = await getFileBlob(getAnyCors(this.url));
+        if(this.blob == undefined) {
+            // this.blob = new Blob(await getFileBlob(getAnyCors(this.url)), {type: this.mime});
+            this.blob = await getFileBlob(getAnyCors(this.url));
+            log(this.blob.type);
+            
+        }
         return this.blob;
     }
 

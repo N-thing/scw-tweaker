@@ -17,7 +17,7 @@ body > .v-overlay-container {
 }
 
 .v-toolbar__content {
-    overflow: visible;
+    overflow: visible !important;
 }
 
 #productionFloatMenu {

@@ -60,6 +60,7 @@ class InputSCWFinderList extends UIElement {
             data: data,
         };
         this.input.value = name;
+        this.input.input.placeholder = name;
         this.onCurrent(this.current);
     }
 
