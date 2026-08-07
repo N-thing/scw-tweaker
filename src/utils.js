@@ -73,7 +73,11 @@ export async function openFile(fileData) {
         url = URL.createObjectURL(namedFile);
     } 
 
-    window.open(url, "_blank");
+    // window.open(url, "_blank");
+    let alink = document.createElement('a');
+    alink.href = url;
+    alink.setAttribute('target', '_blank');
+    alink.click();
     return true;
 }
 

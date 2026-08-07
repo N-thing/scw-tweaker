@@ -126,7 +126,7 @@ class Core {
 
     async getPageData() {
 
-        let path = location.hash.slice(2).split('/');
+        let path = location.pathname.slice(1).split('/');
         let section = null;
         let data = {};
 
